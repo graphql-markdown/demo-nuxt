@@ -9,7 +9,7 @@ directive @example(value: String!) on FIELD_DEFINITION | OBJECT
 Provides the JSON response returned by the `@example` operation, rendered
 alongside it in the generated API reference.
 """
-directive @exampleResponse(value: String!) on FIELD_DEFINITION | OBJECT
+directive @exampleResponse(value: String!) on FIELD_DEFINITION
 
 """
 Marks an object type as superseded when standard @deprecated cannot be applied.
