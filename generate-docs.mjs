@@ -44,7 +44,7 @@ export async function generate() {
         }
       },
       groupByDirective: undefined
-    }, { }, 'consola');
+    }, { }, import.meta.resolve('consola'));
     logger.info('GraphQL Markdown generated in ./content/api-reference/');
   } catch (error) {
     logger.error('Generation failed');
