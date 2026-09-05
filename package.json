@@ -1,0 +1,30 @@
+{
+  "name": "demo-nuxi",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "node generate-docs.mjs && nuxi build",
+    "dev": "node generate-docs.mjs && nuxi dev",
+    "generate": "node generate-docs.mjs && nuxi generate",
+    "preview": "nuxi preview",
+    "postinstall": "nuxi prepare",
+    "docs": "node generate-docs.mjs"
+  },
+  "dependencies": {
+    "@nuxt/content": "^3.16.0",
+    "@nuxt/ui": "^4.11.0",
+    "better-sqlite3": "^13.0.3",
+    "nuxt": "^4.5.2",
+    "sharp": "^0.35.4",
+    "shiki": "^4.4.3",
+    "tailwindcss": "^4.3.3",
+    "vue": "^3.5.42",
+    "vue-router": "^5.3.0"
+  },
+  "devDependencies": {
+    "@graphql-markdown/cli": "^1.0.3",
+    "@graphql-tools/graphql-file-loader": "^8.1.19",
+    "@iconify-json/lucide": "^1.2.129",
+    "graphql": "^17.0.2"
+  }
+}
