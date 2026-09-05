@@ -16,9 +16,13 @@ export interface ApiNavigationGroup {
 }
 
 /**
- * The sidebar tree, derived from the content paths themselves: every page lives
- * at `/api-reference/<section>/<group>/<name>` (`types/objects/user`), so the
- * two middle segments are the section and the group.
+ * The navigation tree, derived from the content paths themselves: every page
+ * lives at `/api-reference/<section>/<group>/<name>` (`types/objects/user`), so
+ * the two middle segments are the section and the group.
+ *
+ * The shape is the one `UContentNavigation` and `UContentSearch` both expect —
+ * nodes with a `title` and either `children` or a `path` — so the sidebar and
+ * the search palette read the same tree.
  */
 export const useApiNavigation = async () => {
   const { data: pages } = await useAsyncData("api-reference-navigation", () =>
@@ -51,7 +55,9 @@ export const useApiNavigation = async () => {
 
     return [...grouped].map(([sectionName, groups]) => ({
       title: titleCase(sectionName),
-      groups: [...groups].map(([groupName, items]) => ({
+      // `UContentSearch` keys its result groups by the section path.
+      path: `/api-reference/${sectionName}`,
+      children: [...groups].map(([groupName, items]) => ({
         title: titleCase(groupName),
         items,
         children: items.map((item) => ({
@@ -76,7 +82,7 @@ export const useApiNavigation = async () => {
   /** The same groups, flattened into the cards shown on the landing page. */
   const overviewGroups = computed(() =>
     sections.value.flatMap((section) =>
-      section.groups.map((group) => ({
+      section.children.map((group) => ({
         ...group,
         sectionTitle: section.title,
       })),

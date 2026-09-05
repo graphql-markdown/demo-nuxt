@@ -75,7 +75,7 @@
 
             <template #content>
               <UContentNavigation
-                :navigation="section.groups"
+                :navigation="section.children"
                 :default-open="true"
                 :ui="{ link: 'text-sm', trigger: 'font-normal' }"
               />
@@ -208,7 +208,15 @@
     <SiteFooter />
 
     <ClientOnly>
-      <UContentSearch :files="searchFiles ?? []" />
+      <!-- Nuxt UI reads the dialog's accessible name from `contentSearch.title`
+           and `contentSearch.description`, which its bundled locales do not
+           define — without these props the modal announces the raw keys. -->
+      <UContentSearch
+        :navigation="navigationSections"
+        :files="searchFiles ?? []"
+        title="Search the API reference"
+        description="Find an operation, type, field, or example by name."
+      />
     </ClientOnly>
   </div>
   <div v-else class="p-12 text-center text-muted">
