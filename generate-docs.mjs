@@ -1,9 +1,13 @@
 // generate-docs.mjs
+import { useLogger } from '@nuxt/kit'
+
 import { runGraphQLMarkdown } from '@graphql-markdown/cli';
+
+const logger = useLogger('generate-docs')
 
 const formatter = new URL('./graphql-markdown-formatter.mjs', import.meta.url).href
 
-async function generate() {
+export async function generate() {
   try {
     await runGraphQLMarkdown({
       // Core Paths
@@ -40,11 +44,10 @@ async function generate() {
         }
       },
       groupByDirective: undefined
-    }, { });
-    console.log('🎉 GraphQL Markdown generated in ./content/api-reference/');
+    }, { }, 'consola');
+    logger.info('GraphQL Markdown generated in ./content/api-reference/');
   } catch (error) {
-    console.error('❌ Generation failed:', error);
+    logger.error('Generation failed');
+    throw new Error(error)
   }
 }
-
-generate();

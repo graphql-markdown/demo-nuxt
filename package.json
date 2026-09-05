@@ -3,9 +3,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "node generate-docs.mjs && nuxi build",
-    "dev": "node generate-docs.mjs && nuxi dev",
-    "generate": "node generate-docs.mjs && nuxi generate",
+    "build": "nuxi build",
+    "dev": "nuxi dev",
+    "generate": "nuxi generate",
     "preview": "nuxi preview",
     "postinstall": "nuxi prepare",
     "docs": "node generate-docs.mjs"
