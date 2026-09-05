@@ -1,5 +1,5 @@
 {
-  "name": "demo-nuxi",
+  "name": "demo-nuxt",
   "type": "module",
   "private": true,
   "scripts": {
