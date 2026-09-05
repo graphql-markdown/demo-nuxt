@@ -1,3 +1,5 @@
+import { fileURLToPath } from 'node:url'
+
 import { generate } from "./generate-docs.mjs";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -18,4 +20,9 @@ export default defineNuxtConfig({
       await generate();
     },
   },
+   watch: [
+    fileURLToPath(new URL('./schema/api.graphql', import.meta.url)),
+    fileURLToPath(new URL('./generate-docs.mjs', import.meta.url)),
+    fileURLToPath(new URL('./graphql-markdown-formatter.mjs', import.meta.url)),
+  ]
 });
