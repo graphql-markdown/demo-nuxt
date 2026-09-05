@@ -1,248 +1,136 @@
 <template>
-  <div
+  <main
     v-if="page"
-    class="flex min-h-screen flex-col bg-default font-sans text-default"
+    class="grid flex-1 grid-cols-1"
+    :class="{ 'lg:grid-cols-2': !isLandingPage }"
   >
-    <SiteHeader>
-      <template #leading>
-        <UButton
-          icon="i-lucide-menu"
-          color="neutral"
-          variant="ghost"
-          class="lg:hidden"
-          aria-label="Open navigation"
-          @click="isSidebarOpen = true"
-        />
-      </template>
-
-      <template #right>
-        <UContentSearchButton />
-
-        <UButton
-          to="https://github.com/graphql-markdown/graphql-markdown"
-          target="_blank"
-          icon="i-lucide-github"
-          color="neutral"
-          variant="outline"
-          aria-label="GraphQL-Markdown on GitHub"
-          title="GraphQL-Markdown on GitHub"
-        />
-      </template>
-    </SiteHeader>
-
-    <div class="relative flex w-full flex-1">
-      <USidebar
-        v-model:open="isSidebarOpen"
-        collapsible="offcanvas"
-        mode="slideover"
-        title="GraphQL API"
-        :ui="{
-          container:
-            'top-(--ui-header-height) h-[calc(100vh-var(--ui-header-height))] border-r border-default bg-muted',
-          header: 'px-8',
-          body: 'p-8 pt-4',
-        }"
-        class="[--sidebar-width:20rem]"
-      >
-        <template #header>
-          <NuxtLink
-            to="/api-reference"
-            class="block text-sm font-semibold text-dimmed transition hover:text-primary"
-          >
-            GraphQL API
-          </NuxtLink>
-        </template>
-
-        <div class="flex flex-col gap-4">
-          <UCollapsible
-            v-for="section in navigationSections"
-            :key="section.title"
-            default-open
-          >
-            <UButton
-              :label="section.title"
-              color="neutral"
-              variant="ghost"
-              trailing-icon="i-lucide-chevron-down"
-              block
-              class="group mb-1 -mx-2.5 w-[calc(100%+1.25rem)] justify-between px-2.5"
-              :ui="{
-                label: 'text-[0.85rem] font-extrabold uppercase text-primary',
-                trailingIcon:
-                  'text-primary transition-transform duration-200 group-data-[state=open]:rotate-180',
-              }"
-            />
-
-            <template #content>
-              <UContentNavigation
-                :navigation="section.children"
-                :default-open="true"
-                :ui="{ link: 'text-sm', trigger: 'font-normal' }"
-              />
-            </template>
-          </UCollapsible>
-        </div>
-      </USidebar>
-
-      <main
-        class="grid flex-1 grid-cols-1"
-        :class="{ 'lg:grid-cols-2': !isLandingPage }"
-      >
-        <section
-          class="api-document max-w-none overflow-y-auto p-8 lg:px-16 lg:py-20"
-          :class="{ 'border-r border-default': !isLandingPage }"
-        >
-          <UBreadcrumb
-            :items="breadcrumbs"
-            class="mb-8 -mt-12 font-mono"
-            :ui="{ list: 'flex-wrap', linkLabel: 'truncate-none' }"
-          />
-
-          <UAlert
-            v-if="deprecationReason"
-            color="error"
-            variant="subtle"
-            icon="i-lucide-triangle-alert"
-            :description="deprecationReason"
-            class="mb-8"
-          />
-
-          <div v-if="isLandingPage">
-            <UPageHeader
-              headline="GRAPHQL SCHEMA REFERENCE"
-              title="Schema Documentation"
-              description="Browse the workspace API by operation or schema type. Every page includes its definition, related fields, and examples when available."
-              :ui="{
-                root: 'border-0 pt-0 pb-0',
-                headline: 'font-mono font-normal',
-                title: 'font-serif text-5xl sm:text-5xl font-semibold',
-                description: 'max-w-2xl leading-8',
-              }"
-            />
-
-            <UPageGrid class="mt-6 gap-2 xl:grid-cols-3">
-              <UPageCard
-                v-for="group in overviewGroups"
-                :key="`${group.sectionTitle}-${group.title}`"
-                :to="group.items[0].path"
-                :title="group.title"
-                :description="`${group.items.length} ${group.items.length === 1 ? 'entry' : 'entries'}`"
-                variant="subtle"
-                :ui="{
-                  container: 'p-3 sm:p-3 gap-y-0',
-                  title: 'font-serif text-lg',
-                  description: 'text-xs leading-tight text-muted',
-                }"
-              >
-                <template #leading>
-                  <p class="font-mono text-[0.6875rem] text-primary">
-                    {{ group.sectionTitle }}
-                  </p>
-                </template>
-              </UPageCard>
-            </UPageGrid>
-          </div>
-          <template v-else>
-            <ContentRenderer
-              v-if="document.lead"
-              :value="document.lead"
-              class="markdown-text-body markdown-lead"
-            />
-
-            <UCollapsible
-              v-for="section in document.sections"
-              :key="section.id"
-              default-open
-            >
-              <UButton
-                :id="section.id"
-                :label="section.title"
-                :trailing-icon="'i-lucide-chevron-down'"
-                color="neutral"
-                variant="ghost"
-                block
-                class="group section-trigger"
-                :ui="{
-                  label: 'font-serif text-2xl font-semibold text-highlighted',
-                  trailingIcon:
-                    'size-5 text-dimmed transition-transform duration-200 group-data-[state=open]:rotate-180',
-                }"
-              />
-
-              <template #content>
-                <ContentRenderer
-                  :value="section.document"
-                  class="markdown-text-body"
-                />
-              </template>
-            </UCollapsible>
-          </template>
-        </section>
-
-        <section
-          v-if="!isLandingPage"
-          class="space-y-6 bg-default p-8 lg:sticky lg:top-(--ui-header-height) lg:h-[calc(100vh-var(--ui-header-height))] lg:overflow-y-auto lg:px-12 lg:py-16"
-        >
-          <SchemaCodeCard v-if="definitionCard" v-bind="definitionCard" />
-
-          <!-- An operation documents a request and its response, so the two
-               examples read as tabs; a type page has at most one, and keeps a
-               plain card. -->
-          <ProseCodeGroup v-if="isOperation && exampleCards.length">
-            <SchemaCodeCard
-              v-for="card in exampleCards"
-              :key="card.label"
-              v-bind="card"
-            />
-          </ProseCodeGroup>
-          <template v-else>
-            <SchemaCodeCard
-              v-for="card in exampleCards"
-              :key="card.label"
-              v-bind="card"
-            />
-          </template>
-        </section>
-      </main>
-    </div>
-    <SiteFooter />
-
-    <ClientOnly>
-      <!-- Nuxt UI reads the dialog's accessible name from `contentSearch.title`
-           and `contentSearch.description`, which its bundled locales do not
-           define — without these props the modal announces the raw keys. -->
-      <UContentSearch
-        :navigation="navigationSections"
-        :files="searchFiles ?? []"
-        title="Search the API reference"
-        description="Find an operation, type, field, or example by name."
+    <section
+      class="api-document max-w-none overflow-y-auto p-8 lg:px-16 lg:py-20"
+      :class="{ 'border-r border-default': !isLandingPage }"
+    >
+      <UBreadcrumb
+        :items="breadcrumbs"
+        class="mb-8 -mt-12 font-mono"
+        :ui="{ list: 'flex-wrap', linkLabel: 'truncate-none' }"
       />
-    </ClientOnly>
-  </div>
-  <div v-else class="p-12 text-center text-muted">
-    Loading documentation endpoint...
+
+      <UAlert
+        v-if="deprecationReason"
+        color="error"
+        variant="subtle"
+        icon="i-lucide-triangle-alert"
+        :description="deprecationReason"
+        class="mb-8"
+      />
+
+      <div v-if="isLandingPage">
+        <UPageHeader
+          headline="GRAPHQL SCHEMA REFERENCE"
+          title="Schema Documentation"
+          description="Browse the workspace API by operation or schema type. Every page includes its definition, related fields, and examples when available."
+          :ui="{
+            root: 'border-0 pt-0 pb-0',
+            headline: 'font-mono font-normal',
+            title: 'font-serif text-5xl sm:text-5xl font-semibold',
+            description: 'max-w-2xl leading-8',
+          }"
+        />
+
+        <UPageGrid class="mt-6 gap-2 xl:grid-cols-3">
+          <UPageCard
+            v-for="group in overviewGroups"
+            :key="`${group.sectionTitle}-${group.title}`"
+            :to="group.items[0].path"
+            :title="group.title"
+            :description="`${group.items.length} ${group.items.length === 1 ? 'entry' : 'entries'}`"
+            variant="subtle"
+            :ui="{
+              container: 'p-3 sm:p-3 gap-y-0',
+              title: 'font-serif text-lg',
+              description: 'text-xs leading-tight text-muted',
+            }"
+          >
+            <template #leading>
+              <p class="font-mono text-[0.6875rem] text-primary">
+                {{ group.sectionTitle }}
+              </p>
+            </template>
+          </UPageCard>
+        </UPageGrid>
+      </div>
+      <template v-else>
+        <ContentRenderer
+          v-if="document.lead"
+          :value="document.lead"
+          class="markdown-text-body markdown-lead"
+        />
+
+        <UCollapsible
+          v-for="section in document.sections"
+          :key="section.id"
+          default-open
+        >
+          <UButton
+            :id="section.id"
+            :label="section.title"
+            :trailing-icon="'i-lucide-chevron-down'"
+            color="neutral"
+            variant="ghost"
+            block
+            class="group section-trigger"
+            :ui="{
+              label: 'font-serif text-2xl font-semibold text-highlighted',
+              trailingIcon:
+                'size-5 text-dimmed transition-transform duration-200 group-data-[state=open]:rotate-180',
+            }"
+          />
+
+          <template #content>
+            <ContentRenderer
+              :value="section.document"
+              class="markdown-text-body"
+            />
+          </template>
+        </UCollapsible>
+      </template>
+    </section>
+
+    <section
+      v-if="!isLandingPage"
+      class="space-y-6 bg-default p-8 lg:sticky lg:top-(--ui-header-height) lg:h-[calc(100vh-var(--ui-header-height))] lg:overflow-y-auto lg:px-12 lg:py-16"
+    >
+      <SchemaCodeCard v-if="definitionCard" v-bind="definitionCard" />
+
+      <!-- An operation documents a request and its response, so the two
+           examples read as tabs; a type page has at most one, and keeps a
+           plain card. -->
+      <ProseCodeGroup v-if="isOperation && exampleCards.length">
+        <SchemaCodeCard
+          v-for="card in exampleCards"
+          :key="card.label"
+          v-bind="card"
+        />
+      </ProseCodeGroup>
+      <template v-else>
+        <SchemaCodeCard
+          v-for="card in exampleCards"
+          :key="card.label"
+          v-bind="card"
+        />
+      </template>
+    </section>
+  </main>
+  <div v-else class="flex-1 p-12 text-center text-muted">
+    Loading documentation endpoint…
   </div>
 </template>
 
 <script setup lang="ts">
 import { codeToHtml } from "shiki";
 
-import {
-  CODE_COLUMN_SECTIONS,
-  isOperationCategory,
-  codeColumnNodeIndexes,
-  definitionCode,
-  findDeprecationNotice,
-  schemaKindLabel,
-  sectionCode,
-  titleCase,
-  toRenderableNode,
-  withoutDeprecationNotice,
-} from "~/utils/api-document";
-import { isElement, nodeText, type MdcNode } from "~/utils/mdc";
+definePageMeta({ layout: "reference" });
 
 const route = useRoute();
-const isSidebarOpen = ref(true);
 
 const pathSegments = computed(() => route.path.split("/").filter(Boolean));
 
@@ -264,12 +152,7 @@ const { data: page } = await useAsyncData(route.path, () =>
     .first(),
 );
 
-const { data: searchFiles } = await useAsyncData("api-reference-search", () =>
-  queryCollectionSearchSections("content"),
-);
-
-const { sections: navigationSections, overviewGroups } =
-  await useApiNavigation();
+const { overviewGroups } = await useApiNavigation();
 
 const breadcrumbs = computed(() =>
   pathSegments.value.map((segment, index) => {

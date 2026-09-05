@@ -19,6 +19,9 @@ Inside your GraphQL-Markdown + [Nuxt](https://nuxt.com/) project, you'll see the
 │   │   └── SiteHeader.vue
 │   ├── composables/
 │   │   └── useApiNavigation.ts
+│   ├── layouts/
+│   │   ├── default.vue
+│   │   └── reference.vue
 │   ├── pages/
 │   │   ├── api-reference/
 │   │   │   └── [...slug].vue
@@ -45,7 +48,7 @@ There is no `gqlmd` CLI step and no `.graphqlrc`. `generate-docs.ts` calls `runG
 
 `graphql-markdown-formatter.ts` is a small formatter add-on. It emits `.md` rather than `.mdx`, because Nuxt Content's search indexer (`queryCollectionSearchSections`) only reads Markdown; renders type badges as `<mark class="gqlmd-mdx-badge-*">`; and turns deprecation admonitions into a plain `<aside>`. The reference page promotes both into Nuxt UI components — `UBadge` and `UAlert` — while parsing the page.
 
-`app/pages/api-reference/[...slug].vue` is that page. It queries the generated Markdown as a Nuxt Content AST and rewrites it before rendering: `app/utils/mdc.ts` holds the AST primitives, `app/utils/api-document.ts` the schema-aware queries and transforms, and `useApiNavigation` derives a navigation tree from the content paths, which the sidebar and the `⌘K` search palette both read. The GraphQL definition and the examples are lifted out of the prose into `SchemaCodeCard`s, highlighted with [Shiki](https://shiki.style/); on operation pages the request and its response are shown as a [code group](https://ui.nuxt.com/docs/typography/code-group).
+`app/pages/api-reference/[...slug].vue` is that page. It queries the generated Markdown as a Nuxt Content AST and rewrites it before rendering: `app/utils/mdc.ts` holds the AST primitives, `app/utils/api-document.ts` the schema-aware queries and transforms, and `useApiNavigation` derives a navigation tree from the content paths. `app/layouts/reference.vue` owns the chrome around it — the header, the sidebar and the `⌘K` search palette all read that same tree — so the page itself is only the two columns. The GraphQL definition and the examples are lifted out of the prose into `SchemaCodeCard`s, highlighted with [Shiki](https://shiki.style/); on operation pages the request and its response are shown as a [code group](https://ui.nuxt.com/docs/typography/code-group).
 
 `schema/api.graphql` is a small workspace API that exercises the interesting cases: `@example` and `@exampleResponse` on every operation, `@deprecatedType` on a superseded object, field-level `@deprecated`, a union, an interface, and a paginated connection. `@exampleResponse` is a custom section registered in `generate-docs.ts`, not a built-in.
 
