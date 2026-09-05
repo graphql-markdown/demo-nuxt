@@ -25,6 +25,7 @@
     "@graphql-tools/graphql-file-loader": "^8.1.19",
     "@iconify-json/lucide": "^1.2.129",
     "@types/node": "^26.4.1",
-    "graphql": "^17.0.2"
+    "graphql": "^17.0.2",
+    "prettier": "^3.9.6"
   }
 }
