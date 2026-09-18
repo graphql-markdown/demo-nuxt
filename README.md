@@ -2,6 +2,8 @@
 
 [![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/graphql-markdown/demo-nuxt/tree/main)
 
+Live demo: [graphql-markdown.dev/demo-nuxt](https://graphql-markdown.dev/demo-nuxt)
+
 Unlike the other demos, this one does not sit on a documentation theme. It generates the Markdown with [GraphQL-Markdown](https://graphql-markdown.dev/), reads it back through [Nuxt Content](https://content.nuxt.com/), and renders a two-column API reference built from [Nuxt UI](https://ui.nuxt.com/) components — prose on the left, the schema definition and the examples on the right.
 
 ## 🚀 Project Structure
