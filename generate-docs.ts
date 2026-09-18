@@ -2,7 +2,10 @@
 import { useLogger } from "@nuxt/kit";
 
 import { runGraphQLMarkdown } from "@graphql-markdown/cli";
-import type { ConstDirectiveNode } from "graphql";
+import {
+  directiveOccurrence,
+  hasDirectiveNamed,
+} from "@graphql-markdown/graphql";
 
 /**
  * `@graphql-markdown/types` is a transitive dependency, so the option shape is
@@ -10,23 +13,10 @@ import type { ConstDirectiveNode } from "graphql";
  */
 type GraphQLMarkdownOptions = Parameters<typeof runGraphQLMarkdown>[0];
 
-/**
- * Directive names are opaque branded strings in the library's types, so a plain
- * string key has to be named through the option type it belongs to.
- */
-type DirectiveName = keyof NonNullable<
-  GraphQLMarkdownOptions["customDirective"]
->;
-
 /** `{ <loader class>: <package providing it> }` — both sides opaque in the types. */
 const loaders = {
   GraphQLFileLoader: "@graphql-tools/graphql-file-loader",
 } as GraphQLMarkdownOptions["loaders"];
-
-/** The subset of a GraphQL type that `directiveArgument` reads. */
-interface DirectiveCarrier {
-  astNode?: { directives?: readonly ConstDirectiveNode[] } | null;
-}
 
 const logger = useLogger("generate-docs");
 
@@ -37,21 +27,6 @@ const OPERATIONS = ["queries", "mutations", "subscriptions"] as const;
 
 const fencedGraphQL = (code: unknown): string =>
   ["```graphql", String(code), "```"].join("\n");
-
-/** Reads `@directive(argument: "…")` off a type's AST node. */
-const directiveArgument = (
-  type: unknown,
-  directiveName: string,
-  argumentName: string,
-): string => {
-  const argument = (type as DirectiveCarrier | undefined)?.astNode?.directives
-    ?.find((directive) => directive.name.value === directiveName)
-    ?.arguments?.find((argument) => argument.name.value === argumentName);
-
-  return argument && "value" in argument.value
-    ? String(argument.value.value)
-    : "";
-};
 
 const options: GraphQLMarkdownOptions = {
   // Core paths
@@ -83,11 +58,25 @@ const options: GraphQLMarkdownOptions = {
     ],
   },
 
-  // Forces the library to gracefully initialize empty plugin arrays
-  customDirective: {
-    ["deprecatedType" as DirectiveName]: {
-      descriptor: (_directive, type) =>
-        directiveArgument(type, "deprecatedType", "reason"),
+  // Mirrors the built-in `@deprecated` treatment (badge + callout) for the
+  // type-level `@deprecatedType` directive, which the spec doesn't allow
+  // `@deprecated` to target.
+  decorators: {
+    deprecatedTypeTag: {
+      predicate: hasDirectiveNamed("deprecatedType"),
+      position: { into: "tags" },
+      render: (_values, options) =>
+        options.formatMDXBadge!({ text: "deprecated" }),
+    },
+    deprecatedTypeNotice: {
+      predicate: hasDirectiveNamed("deprecatedType"),
+      position: { into: "description" },
+      resolve: directiveOccurrence("deprecatedType"),
+      render: ([value], options) =>
+        options.formatMDXAdmonition!(
+          { text: String(value.reason), title: "Deprecated", type: "warning" },
+          options.meta,
+        ),
     },
   },
   groupByDirective: undefined,

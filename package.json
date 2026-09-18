@@ -21,7 +21,7 @@
     "vue-router": "^5.3.0"
   },
   "devDependencies": {
-    "@graphql-markdown/cli": "file:../graphql-markdown/packages/cli",
+    "@graphql-markdown/cli": "^1.1.0",
     "@graphql-tools/graphql-file-loader": "^8.1.19",
     "@iconify-json/lucide": "^1.2.129",
     "@types/node": "^26.4.1",
