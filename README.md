@@ -75,6 +75,10 @@ npm run dev
 
 > 🧑‍🚀 **Edit `schema/api.graphql` to try with your own GraphQL schema.** The GraphQL-Markdown options live in `generate-docs.ts`.
 
+## 🚢 Deployment
+
+The `Deploy to GitHub Pages` workflow generates the documentation, builds the static site and publishes `./.output/public` to the `gh-pages` branch. It is run manually from the Actions tab, and sets `NUXT_APP_BASE_URL=/demo-nuxt/` so assets and links resolve under the Pages subpath — leave it unset to build for the root.
+
 ## 👀 Want to learn more?
 
 Check out [GraphQL-Markdown's docs](https://graphql-markdown.dev/).
