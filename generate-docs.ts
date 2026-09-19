@@ -3,9 +3,8 @@ import { createGenerateDocs } from "@graphql-markdown/nuxt-theme/generate";
 import {
   directiveOccurrence,
   hasDirectiveNamed,
+  isOperation,
 } from "@graphql-markdown/graphql";
-
-const OPERATIONS = ["queries", "mutations", "subscriptions"] as const;
 
 const fencedGraphQL = (code: unknown): string =>
   ["```graphql", String(code), "```"].join("\n");
@@ -17,23 +16,6 @@ export const generate = createGenerateDocs({
     exampleSection: {
       directive: "example",
     },
-    // A decorator predicated on `isOperation` (tried instead of this) hits a
-    // duplicate-`graphql`-module bug: demo-nuxt's own `graphql` devDependency
-    // and the copy `@graphql-markdown/cli` nests internally are different
-    // installs, so GraphQL.js's instanceof-based leaf-type checks fail
-    // across that boundary for every operation ("Expected String! to be a
-    // GraphQL leaf type") and the page silently isn't written. customSections
-    // doesn't touch that code path.
-    customSections: [
-      {
-        name: "exampleResponse",
-        title: "Example Response",
-        directive: "exampleResponse",
-        position: { after: "metadata" },
-        appliesTo: [...OPERATIONS],
-        render: ([value]) => fencedGraphQL(value?.value),
-      },
-    ],
   },
   decorators: {
     // Mirrors the built-in `@deprecated` treatment (badge + callout) for the
@@ -54,6 +36,20 @@ export const generate = createGenerateDocs({
           { text: String(value.reason), title: "Deprecated", type: "warning" },
           options.meta,
         ),
+    },
+    // customSections (used here previously) is deprecated in favor of
+    // decorators - a titled decorator renders the same top-level section a
+    // customSections entry would.
+    exampleResponse: {
+      title: "Example Response",
+      predicate: isOperation,
+      position: { after: "metadata" },
+      resolve: directiveOccurrence("exampleResponse"),
+      // `directiveOccurrence` resolves the directive's own argument record
+      // (`@exampleResponse(value: String!)` -> `{ value: "..." }`), not a
+      // GraphQL type/field to print as SDL, so a plain fenced block - not
+      // `Printer.printCode` (which expects the latter) - is what this needs.
+      render: ([value]) => fencedGraphQL(value?.value),
     },
   },
 });
