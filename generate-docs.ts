@@ -1,51 +1,29 @@
 // generate-docs.ts
-import { useLogger } from "@nuxt/kit";
-
-import { runGraphQLMarkdown } from "@graphql-markdown/cli";
+import { createGenerateDocs } from "@graphql-markdown/nuxt-theme/generate";
 import {
   directiveOccurrence,
   hasDirectiveNamed,
 } from "@graphql-markdown/graphql";
-
-/**
- * `@graphql-markdown/types` is a transitive dependency, so the option shape is
- * taken from the CLI's own signature rather than imported by package name.
- */
-type GraphQLMarkdownOptions = Parameters<typeof runGraphQLMarkdown>[0];
-
-/** `{ <loader class>: <package providing it> }` — both sides opaque in the types. */
-const loaders = {
-  GraphQLFileLoader: "@graphql-tools/graphql-file-loader",
-} as GraphQLMarkdownOptions["loaders"];
-
-const logger = useLogger("generate-docs");
-
-const formatter = new URL("./graphql-markdown-formatter.ts", import.meta.url)
-  .href;
 
 const OPERATIONS = ["queries", "mutations", "subscriptions"] as const;
 
 const fencedGraphQL = (code: unknown): string =>
   ["```graphql", String(code), "```"].join("\n");
 
-const options: GraphQLMarkdownOptions = {
-  // Core paths
+// Create the generator with demo-nuxt's custom sections and decorators
+export const generate = createGenerateDocs({
   schema: "./schema/api.graphql",
-  rootPath: "./content",
-  baseURL: "api-reference",
-  linkRoot: "/",
-  formatter,
-
-  // Formatting fallback options to bypass the internal configuration setup
-  loaders,
-
-  // Layout extraction flags
   printTypeOptions: {
-    parentTypePrefix: false,
-    typeBadges: true,
     exampleSection: {
       directive: "example",
     },
+    // A decorator predicated on `isOperation` (tried instead of this) hits a
+    // duplicate-`graphql`-module bug: demo-nuxt's own `graphql` devDependency
+    // and the copy `@graphql-markdown/cli` nests internally are different
+    // installs, so GraphQL.js's instanceof-based leaf-type checks fail
+    // across that boundary for every operation ("Expected String! to be a
+    // GraphQL leaf type") and the page silently isn't written. customSections
+    // doesn't touch that code path.
     customSections: [
       {
         name: "exampleResponse",
@@ -57,11 +35,10 @@ const options: GraphQLMarkdownOptions = {
       },
     ],
   },
-
-  // Mirrors the built-in `@deprecated` treatment (badge + callout) for the
-  // type-level `@deprecatedType` directive, which the spec doesn't allow
-  // `@deprecated` to target.
   decorators: {
+    // Mirrors the built-in `@deprecated` treatment (badge + callout) for the
+    // type-level `@deprecatedType` directive, which the spec doesn't allow
+    // `@deprecated` to target.
     deprecatedTypeTag: {
       predicate: hasDirectiveNamed("deprecatedType"),
       position: { into: "tags" },
@@ -79,16 +56,4 @@ const options: GraphQLMarkdownOptions = {
         ),
     },
   },
-  groupByDirective: undefined,
-};
-
-export async function generate(): Promise<void> {
-  try {
-    await runGraphQLMarkdown(options, {}, import.meta.resolve("consola"));
-
-    logger.info("GraphQL Markdown generated in ./content/api-reference/");
-  } catch (error) {
-    logger.error("Generation failed");
-    throw new Error("GraphQL Markdown generation failed", { cause: error });
-  }
-}
+});
