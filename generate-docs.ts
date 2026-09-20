@@ -16,6 +16,7 @@ export const generate = createGenerateDocs({
     exampleSection: {
       directive: "example",
     },
+    hierarchy: "flat",
   },
   decorators: {
     // Mirrors the built-in `@deprecated` treatment (badge + callout) for the
