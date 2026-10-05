@@ -77,7 +77,7 @@ const heroLinks = [
   },
   {
     label: "View an example",
-    to: "/api-reference/operations/queries/projects",
+    to: "/api-reference#queries-projects",
     color: "neutral" as const,
     variant: "outline" as const,
     size: "xl" as const,
