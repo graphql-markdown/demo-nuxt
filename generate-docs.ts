@@ -1,67 +1,27 @@
 // generate-docs.ts
-import { useLogger } from "@nuxt/kit";
-
-import { runGraphQLMarkdown } from "@graphql-markdown/cli";
+import { createGenerateDocs } from "@graphql-markdown/nuxt-theme/generate";
 import {
   directiveOccurrence,
   hasDirectiveNamed,
+  isOperation,
 } from "@graphql-markdown/graphql";
-
-/**
- * `@graphql-markdown/types` is a transitive dependency, so the option shape is
- * taken from the CLI's own signature rather than imported by package name.
- */
-type GraphQLMarkdownOptions = Parameters<typeof runGraphQLMarkdown>[0];
-
-/** `{ <loader class>: <package providing it> }` — both sides opaque in the types. */
-const loaders = {
-  GraphQLFileLoader: "@graphql-tools/graphql-file-loader",
-} as GraphQLMarkdownOptions["loaders"];
-
-const logger = useLogger("generate-docs");
-
-const formatter = new URL("./graphql-markdown-formatter.ts", import.meta.url)
-  .href;
-
-const OPERATIONS = ["queries", "mutations", "subscriptions"] as const;
 
 const fencedGraphQL = (code: unknown): string =>
   ["```graphql", String(code), "```"].join("\n");
 
-const options: GraphQLMarkdownOptions = {
-  // Core paths
+// Create the generator with demo-nuxt's custom sections and decorators
+export const generate = createGenerateDocs({
   schema: "./schema/api.graphql",
-  rootPath: "./content",
-  baseURL: "api-reference",
-  linkRoot: "/",
-  formatter,
-
-  // Formatting fallback options to bypass the internal configuration setup
-  loaders,
-
-  // Layout extraction flags
   printTypeOptions: {
-    parentTypePrefix: false,
-    typeBadges: true,
     exampleSection: {
       directive: "example",
     },
-    customSections: [
-      {
-        name: "exampleResponse",
-        title: "Example Response",
-        directive: "exampleResponse",
-        position: { after: "metadata" },
-        appliesTo: [...OPERATIONS],
-        render: ([value]) => fencedGraphQL(value?.value),
-      },
-    ],
+    hierarchy: "flat",
   },
-
-  // Mirrors the built-in `@deprecated` treatment (badge + callout) for the
-  // type-level `@deprecatedType` directive, which the spec doesn't allow
-  // `@deprecated` to target.
   decorators: {
+    // Mirrors the built-in `@deprecated` treatment (badge + callout) for the
+    // type-level `@deprecatedType` directive, which the spec doesn't allow
+    // `@deprecated` to target.
     deprecatedTypeTag: {
       predicate: hasDirectiveNamed("deprecatedType"),
       position: { into: "tags" },
@@ -78,17 +38,19 @@ const options: GraphQLMarkdownOptions = {
           options.meta,
         ),
     },
+    // customSections (used here previously) is deprecated in favor of
+    // decorators - a titled decorator renders the same top-level section a
+    // customSections entry would.
+    exampleResponse: {
+      title: "Example Response",
+      predicate: isOperation,
+      position: { after: "metadata" },
+      resolve: directiveOccurrence("exampleResponse"),
+      // `directiveOccurrence` resolves the directive's own argument record
+      // (`@exampleResponse(value: String!)` -> `{ value: "..." }`), not a
+      // GraphQL type/field to print as SDL, so a plain fenced block - not
+      // `Printer.printCode` (which expects the latter) - is what this needs.
+      render: ([value]) => fencedGraphQL(value?.value),
+    },
   },
-  groupByDirective: undefined,
-};
-
-export async function generate(): Promise<void> {
-  try {
-    await runGraphQLMarkdown(options, {}, import.meta.resolve("consola"));
-
-    logger.info("GraphQL Markdown generated in ./content/api-reference/");
-  } catch (error) {
-    logger.error("Generation failed");
-    throw new Error("GraphQL Markdown generation failed", { cause: error });
-  }
-}
+});
