@@ -10,7 +10,7 @@
     "postinstall": "nuxi prepare"
   },
   "dependencies": {
-    "@graphql-markdown/nuxt-theme": "file:../graphql-markdown/packages/nuxt-theme",
+    "@graphql-markdown/nuxt-theme": "^0.1.2",
     "@nuxt/content": "^3.16.0",
     "@nuxt/ui": "^4.11.0",
     "better-sqlite3": "^13.0.3",
@@ -22,8 +22,8 @@
     "vue-router": "^5.3.0"
   },
   "devDependencies": {
-    "@graphql-markdown/cli": "file:../graphql-markdown/packages/cli",
-    "@graphql-markdown/graphql": "file:../graphql-markdown/packages/graphql",
+    "@graphql-markdown/cli": "^1.1.1",
+    "@graphql-markdown/graphql": "^1.3.1",
     "@graphql-tools/graphql-file-loader": "^8.1.19",
     "@iconify-json/lucide": "^1.2.129",
     "@types/node": "^26.4.1",
