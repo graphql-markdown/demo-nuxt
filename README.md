@@ -4,7 +4,7 @@
 
 Live demo: [graphql-markdown.dev/demo-nuxt](https://graphql-markdown.dev/demo-nuxt)
 
-A richly customized example of a GraphQL API reference site built on [GraphQL-Markdown](https://graphql-markdown.dev/) + [Nuxt Content](https://content.nuxt.com/) + [Nuxt UI](https://ui.nuxt.com/), consuming the `@graphql-markdown/nuxt-theme` reusable Nuxt layer. The layer provides the two-column API reference UI (prose on the left, schema definitions and examples on the right); this project extends it with custom sections (`@exampleResponse`) and custom type-level decorators (`@deprecatedType`).
+A richly customized example of a GraphQL API reference site built on [GraphQL-Markdown](https://graphql-markdown.dev/) + [Nuxt Content](https://content.nuxt.com/) + [Nuxt UI](https://ui.nuxt.com/), consuming the `@graphql-markdown/nuxt-theme` reusable Nuxt layer. The layer provides the two-column API reference UI (prose on the left, schema definitions and examples on the right); this project extends it with decorators: an "Example Response" section (`@exampleResponse`) and a type-level deprecation badge and callout (`@deprecatedType`).
 
 ## 🚀 Project Structure
 
@@ -63,7 +63,7 @@ npm install
 npm run dev
 ```
 
-> 🧑‍🚀 **Edit `schema/api.graphql` to try with your own GraphQL schema.** The GraphQL-Markdown options (schema path, custom sections, decorators) live in `generate-docs.ts`.
+> 🧑‍🚀 **Edit `schema/api.graphql` to try with your own GraphQL schema.** The GraphQL-Markdown options (schema path, hierarchy, decorators) live in `generate-docs.ts`.
 
 ## 🚢 Deployment
 
