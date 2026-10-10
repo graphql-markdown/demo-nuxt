@@ -1,0 +1,15 @@
+# Dependency build scripts pnpm may run (they all ran under npm before):
+# better-sqlite3 compiles @nuxt/content's SQLite driver, esbuild installs its
+# platform binary, vue-demi switches to the installed Vue version.
+allowBuilds:
+  better-sqlite3: true
+  esbuild: true
+  vue-demi: true
+
+# The theme is installed from the graphql-markdown monorepo's `main` branch
+# (see package.json). Its package.json pins the other monorepo packages with
+# the `workspace:` protocol, which only resolves inside that monorepo, so point
+# them at the registry instead: the CLI follows this project's own devDependency.
+overrides:
+  "@graphql-markdown/cli": "$@graphql-markdown/cli"
+  "@graphql-markdown/tooling-config": "-"

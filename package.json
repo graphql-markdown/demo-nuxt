@@ -2,6 +2,7 @@
   "name": "demo-nuxt",
   "type": "module",
   "private": true,
+  "packageManager": "pnpm@11.24.0",
   "scripts": {
     "build": "nuxi build",
     "dev": "nuxi dev",
@@ -10,7 +11,7 @@
     "postinstall": "nuxi prepare"
   },
   "dependencies": {
-    "@graphql-markdown/nuxt-theme": "^0.1.2",
+    "@graphql-markdown/nuxt-theme": "github:graphql-markdown/graphql-markdown#main&path:/packages/nuxt-theme",
     "@nuxt/content": "^3.16.1",
     "@nuxt/ui": "^4.11.3",
     "better-sqlite3": "^13.0.3",

@@ -12,6 +12,12 @@ alongside it in the generated API reference.
 directive @exampleResponse(value: String!) on FIELD_DEFINITION
 
 """
+Provides the JSON variables sent with the `@example` operation, rendered
+under it in the generated API reference.
+"""
+directive @exampleVariables(value: String!) on FIELD_DEFINITION
+
+"""
 Marks an object type as superseded when standard @deprecated cannot be applied.
 """
 directive @deprecatedType(reason: String!) on OBJECT
@@ -292,13 +298,20 @@ type Query {
   ): Folder
     @example(
       value: """
-      query GetFolder {
-        folder(id: "folder_01") {
+      query GetFolder($id: ID!) {
+        folder(id: $id) {
           id
           name
           parent
           createdAt
         }
+      }
+      """
+    )
+    @exampleVariables(
+      value: """
+      {
+        "id": "folder_01"
       }
       """
     )
@@ -332,8 +345,8 @@ type Query {
   ): ProjectConnection!
     @example(
       value: """
-      query ListActiveProjects {
-        projects(status: ACTIVE) {
+      query ListActiveProjects($status: ProjectStatus) {
+        projects(status: $status) {
           totalCount
           nodes {
             id
@@ -344,6 +357,13 @@ type Query {
             }
           }
         }
+      }
+      """
+    )
+    @exampleVariables(
+      value: """
+      {
+        "status": "ACTIVE"
       }
       """
     )
@@ -384,8 +404,8 @@ type Query {
   ): [SearchResult!]!
     @example(
       value: """
-      query SearchWorkspace {
-        search(query: "mobile") {
+      query SearchWorkspace($query: String!) {
+        search(query: $query) {
           __typename
           ... on Folder {
             id
@@ -402,6 +422,13 @@ type Query {
             email
           }
         }
+      }
+      """
+    )
+    @exampleVariables(
+      value: """
+      {
+        "query": "mobile"
       }
       """
     )
@@ -444,11 +471,19 @@ type Mutation {
   ): Folder!
     @example(
       value: """
-      mutation CreateFolder {
-        createFolder(name: "Roadmap", parentId: "folder_root") {
+      mutation CreateFolder($name: String!, $parentId: ID) {
+        createFolder(name: $name, parentId: $parentId) {
           id
           name
         }
+      }
+      """
+    )
+    @exampleVariables(
+      value: """
+      {
+        "name": "Roadmap",
+        "parentId": "folder_root"
       }
       """
     )
@@ -476,12 +511,8 @@ type Mutation {
   ): Project!
     @example(
       value: """
-      mutation CreateProject {
-        createProject(input: {
-          name: "Design System"
-          ownerId: "user_01"
-          folderId: "folder_01"
-        }) {
+      mutation CreateProject($input: CreateProjectInput!) {
+        createProject(input: $input) {
           id
           name
           status
@@ -489,6 +520,17 @@ type Mutation {
             id
             name
           }
+        }
+      }
+      """
+    )
+    @exampleVariables(
+      value: """
+      {
+        "input": {
+          "name": "Design System",
+          "ownerId": "user_01",
+          "folderId": "folder_01"
         }
       }
       """
@@ -522,13 +564,20 @@ type Mutation {
   ): Project!
     @example(
       value: """
-      mutation ArchiveProject {
-        archiveProject(id: "project_01") {
+      mutation ArchiveProject($id: ID!) {
+        archiveProject(id: $id) {
           id
           name
           status
           updatedAt
         }
+      }
+      """
+    )
+    @exampleVariables(
+      value: """
+      {
+        "id": "project_01"
       }
       """
     )
@@ -617,8 +666,8 @@ type Subscription {
   ): ProjectEvent!
     @example(
       value: """
-      subscription WatchProject {
-        projectChanged(projectId: "project_01", types: [UPDATED, ARCHIVED]) {
+      subscription WatchProject($projectId: ID, $types: [ProjectEventType!]) {
+        projectChanged(projectId: $projectId, types: $types) {
           type
           occurredAt
           project {
@@ -630,6 +679,14 @@ type Subscription {
             name
           }
         }
+      }
+      """
+    )
+    @exampleVariables(
+      value: """
+      {
+        "projectId": "project_01",
+        "types": ["UPDATED", "ARCHIVED"]
       }
       """
     )
@@ -665,13 +722,20 @@ type Subscription {
   ): Folder!
     @example(
       value: """
-      subscription WatchFolders {
-        folderCreated(parentId: "folder_root") {
+      subscription WatchFolders($parentId: ID) {
+        folderCreated(parentId: $parentId) {
           id
           name
           parent
           createdAt
         }
+      }
+      """
+    )
+    @exampleVariables(
+      value: """
+      {
+        "parentId": "folder_root"
       }
       """
     )
