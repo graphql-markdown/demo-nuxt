@@ -14,7 +14,7 @@
     "@nuxt/content": "^3.16.1",
     "@nuxt/ui": "^4.11.3",
     "better-sqlite3": "^13.0.3",
-    "nuxt": "^4.5.2",
+    "nuxt": "^4.6.0",
     "sharp": "^0.35.5",
     "shiki": "^4.5.0",
     "tailwindcss": "^4.3.3",
