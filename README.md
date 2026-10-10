@@ -45,23 +45,30 @@ This project itself contributes:
 
 All commands are run from the root of the project, from a terminal:
 
-| Command            | Action                                                                                                      |
-| :----------------- | :---------------------------------------------------------------------------------------------------------- |
-| `npm install`      | Installs dependencies                                                                                       |
-| `npm run dev`      | Regenerates the documentation if needed, then serves it on `localhost:3000`                                 |
-| `npm run build`    | Regenerates the documentation if needed and builds the server bundle to `./.output`                         |
-| `npm run generate` | Regenerates the documentation and builds the static site to `./.output/public` (verifies cold-build works)  |
-| `npm run preview`  | Serves the production build locally                                                                         |
+| Command             | Action                                                                                                      |
+| :------------------ | :---------------------------------------------------------------------------------------------------------- |
+| `pnpm install`      | Installs dependencies                                                                                       |
+| `pnpm run dev`      | Regenerates the documentation if needed, then serves it on `localhost:3000`                                 |
+| `pnpm run build`    | Regenerates the documentation if needed and builds the server bundle to `./.output`                         |
+| `pnpm run generate` | Regenerates the documentation and builds the static site to `./.output/public` (verifies cold-build works)  |
+| `pnpm run preview`  | Serves the production build locally                                                                         |
 
 Documentation is regenerated automatically when `generate-docs.ts` or `schema/api.graphql` changes.
+
+### Theme source
+
+`@graphql-markdown/nuxt-theme` is installed straight from the [graphql-markdown monorepo](https://github.com/graphql-markdown/graphql-markdown)'s `main` branch (`github:graphql-markdown/graphql-markdown#main&path:/packages/nuxt-theme`), so the demo tracks unreleased theme changes. This needs pnpm: npm can't install a package from a git subdirectory. The theme pins its sibling packages with the monorepo-only `workspace:` protocol, so `pnpm-workspace.yaml` overrides `@graphql-markdown/cli` to this project's own registry version.
+
+- **Pick up the latest `main`:** run `pnpm update @graphql-markdown/nuxt-theme`. The lockfile pins the commit.
+- **Try a theme branch:** replace `#main` with `#<branch>`, then run `pnpm install`.
 
 ## 🏎️ Quick start
 
 Get your demo up and running with these commands:
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 > 🧑‍🚀 **Edit `schema/api.graphql` to try with your own GraphQL schema.** The GraphQL-Markdown options (schema path, homepage, hierarchy, decorators) live in `generate-docs.ts`.
