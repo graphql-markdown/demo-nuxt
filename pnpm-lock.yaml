@@ -14,7 +14,7 @@ importers:
     dependencies:
       '@graphql-markdown/nuxt-theme':
         specifier: github:graphql-markdown/graphql-markdown#main&path:/packages/nuxt-theme
-        version: https://codeload.github.com/graphql-markdown/graphql-markdown/tar.gz/2b5d3da020eb8d40d90e8bdb69d25a7b641fc7cc#path:/packages/nuxt-theme(61078a1a98c8ec1eb7c9a87cc254e76a)
+        version: https://codeload.github.com/graphql-markdown/graphql-markdown/tar.gz/7bb4d9e5c8441c26e404ae17b1f959772adac160#path:/packages/nuxt-theme(61078a1a98c8ec1eb7c9a87cc254e76a)
       '@nuxt/content':
         specifier: ^3.16.1
         version: 3.16.1(@nuxt/schema@4.6.0)(@oxc-project/types@0.153.0)(better-sqlite3@13.0.3)(confbox@0.3.1)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(magic-string@1.4.3)(magicast@0.5.5)(mlly@1.8.2)(oxc-parser@0.139.0)(rolldown@1.2.13)(rollup@4.64.3)(supports-color@10.2.2)(vite@8.3.4(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
@@ -641,8 +641,8 @@ packages:
     resolution: {integrity: sha512-Q98a4EWtNe5DIJ8zZx/FVywVSZ3nme7MhcNT9t/g3AeyZLS22Uw7GU/oUqgTDdytmT4GLqYMZZC6CvWdVOQZUA==}
     engines: {node: '>=22.12.0'}
 
-  '@graphql-markdown/nuxt-theme@https://codeload.github.com/graphql-markdown/graphql-markdown/tar.gz/2b5d3da020eb8d40d90e8bdb69d25a7b641fc7cc#path:/packages/nuxt-theme':
-    resolution: {gitHosted: true, integrity: sha512-6nwovTchRD1e3JCPczTywDfFwxp5IjcCYG0nW7QJUXFK0PMx+gi2So9QyepKV/0a2wiOqEdx6Z1uCqkxec10tw==, path: /packages/nuxt-theme, tarball: https://codeload.github.com/graphql-markdown/graphql-markdown/tar.gz/2b5d3da020eb8d40d90e8bdb69d25a7b641fc7cc}
+  '@graphql-markdown/nuxt-theme@https://codeload.github.com/graphql-markdown/graphql-markdown/tar.gz/7bb4d9e5c8441c26e404ae17b1f959772adac160#path:/packages/nuxt-theme':
+    resolution: {gitHosted: true, integrity: sha512-kcNepvE4+qRbhEvv2tTgrih2suR4PGdJfTtO5qJdm3LolCeshBx68H4NaC1bIcliZDEl7V3m9WYyC5+58dFuYA==, path: /packages/nuxt-theme, tarball: https://codeload.github.com/graphql-markdown/graphql-markdown/tar.gz/7bb4d9e5c8441c26e404ae17b1f959772adac160}
     version: 0.1.3
     engines: {node: '>=22.12.0'}
     hasBin: true
@@ -6399,7 +6399,7 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@graphql-markdown/nuxt-theme@https://codeload.github.com/graphql-markdown/graphql-markdown/tar.gz/2b5d3da020eb8d40d90e8bdb69d25a7b641fc7cc#path:/packages/nuxt-theme(61078a1a98c8ec1eb7c9a87cc254e76a)':
+  '@graphql-markdown/nuxt-theme@https://codeload.github.com/graphql-markdown/graphql-markdown/tar.gz/7bb4d9e5c8441c26e404ae17b1f959772adac160#path:/packages/nuxt-theme(61078a1a98c8ec1eb7c9a87cc254e76a)':
     dependencies:
       '@clack/prompts': 1.8.1
       '@graphql-markdown/cli': 1.1.1(@graphql-markdown/helpers@1.2.1(@types/node@26.6.4)(crossws@0.4.15(srvx@1.0.5))(graphql@17.0.2)(prettier@3.9.9)(typescript@5.9.3))(@types/node@26.6.4)(crossws@0.4.15(srvx@1.0.5))(graphql@17.0.2)(prettier@3.9.9)(typescript@5.9.3)
