@@ -4,7 +4,7 @@
 
 Live demo: [graphql-markdown.dev/demo-nuxt](https://graphql-markdown.dev/demo-nuxt)
 
-A richly customized example of a GraphQL API reference site built on [GraphQL-Markdown](https://graphql-markdown.dev/) + [Nuxt Content](https://content.nuxt.com/) + [Nuxt UI](https://ui.nuxt.com/), consuming the `@graphql-markdown/nuxt-theme` reusable Nuxt layer. The layer provides the two-column API reference UI (prose on the left, schema definitions and examples on the right); this project extends it with decorators: an "Example Response" section (`@exampleResponse`) and a type-level deprecation badge and callout (`@deprecatedType`).
+A richly customized example of a GraphQL API reference site built on [GraphQL-Markdown](https://graphql-markdown.dev/) + [Nuxt Content](https://content.nuxt.com/) + [Nuxt UI](https://ui.nuxt.com/), consuming the `@graphql-markdown/nuxt-theme` reusable Nuxt layer. The layer provides the two-column API reference UI (prose on the left, schema definitions and examples on the right); this project extends it with decorators: an "Example Variables" section (`@exampleVariables`), an "Example Response" section (`@exampleResponse`), and a type-level deprecation badge and callout (`@deprecatedType`).
 
 ## 🚀 Project Structure
 
@@ -30,15 +30,15 @@ This project itself contributes:
 ├── schema/
 │   └── api.graphql             # demo GraphQL schema
 ├── content.config.ts           # required per-project: content collection config
-├── generate-docs.ts            # custom entry point: schema path, @exampleResponse, @deprecatedType
+├── generate-docs.ts            # custom entry point: schema path, @exampleVariables, @exampleResponse, @deprecatedType
 ├── nuxt.config.ts              # extends: ['@graphql-markdown/nuxt-theme']
 ├── package.json
 └── tsconfig.json
 ```
 
-`generate-docs.ts` exports a `generate()` function created by the layer's `createGenerateDocs` factory, configured with demo-specific options: the schema path, a custom `@exampleResponse` section (not built-in), and custom `@deprecatedType` decorators. The layer's `gqlmd-generate` Nuxt module invokes this function during the `modules` lifecycle, before Nuxt Content indexes the directory — fixing the cold-build bug that would silently 404 the reference on first clone.
+`generate-docs.ts` exports a `generate()` function created by the layer's `createGenerateDocs` factory, configured with demo-specific options: the schema path, custom `@exampleVariables` and `@exampleResponse` sections (not built-in), and custom `@deprecatedType` decorators. The layer's `gqlmd-generate` Nuxt module invokes this function during the `modules` lifecycle, before Nuxt Content indexes the directory — fixing the cold-build bug that would silently 404 the reference on first clone.
 
-`schema/api.graphql` is a small workspace API that exercises the interesting cases: `@example` and `@exampleResponse` on every operation, `@deprecatedType` on a superseded object, field-level `@deprecated`, a union, an interface, and a paginated connection.
+`schema/api.graphql` is a small workspace API that exercises the interesting cases: `@example`, `@exampleVariables`, and `@exampleResponse` on every operation, `@deprecatedType` on a superseded object, field-level `@deprecated`, a union, an interface, and a paginated connection.
 
 ## 🧞 Commands
 
