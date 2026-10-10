@@ -12,6 +12,8 @@ const fenced = (lang: string, code: unknown): string =>
 // Create the generator with demo-nuxt's custom sections and decorators
 export const generate = createGenerateDocs({
   schema: "./schema/api.graphql",
+  // Rendered as the reference's intro (title, SEO description and body).
+  homepage: "./schema/homepage.md",
   printTypeOptions: {
     exampleSection: {
       directive: "example",
