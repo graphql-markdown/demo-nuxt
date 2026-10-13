@@ -57,10 +57,13 @@ Documentation is regenerated automatically when `generate-docs.ts` or `schema/ap
 
 ### Theme source
 
-`@graphql-markdown/nuxt-theme` is installed straight from the [graphql-markdown monorepo](https://github.com/graphql-markdown/graphql-markdown)'s `main` branch (`github:graphql-markdown/graphql-markdown#main&path:/packages/nuxt-theme`), so the demo tracks unreleased theme changes. This needs pnpm: npm can't install a package from a git subdirectory. The theme pins its sibling packages with the monorepo-only `workspace:` protocol, so `pnpm-workspace.yaml` overrides `@graphql-markdown/cli` to this project's own registry version.
+`@graphql-markdown/nuxt-theme` and the other `@graphql-markdown/*` packages come from the npm registry. pnpm holds back releases younger than its minimum release age. `minimumReleaseAgeExclude` in `pnpm-workspace.yaml` lists the exact GraphQL-Markdown versions the demo adopts as soon as they're published. Add the new versions there when bumping.
 
-- **Pick up the latest `main`:** run `pnpm update @graphql-markdown/nuxt-theme`. The lockfile pins the commit.
-- **Try a theme branch:** replace `#main` with `#<branch>`, then run `pnpm install`.
+To try an unreleased theme change, install it from a branch of the [graphql-markdown monorepo](https://github.com/graphql-markdown/graphql-markdown):
+
+1. Point the dependency at the branch: `github:graphql-markdown/graphql-markdown#<branch>&path:/packages/nuxt-theme`.
+2. The monorepo pins sibling packages with its own `workspace:` protocol, so map them to the registry in `pnpm-workspace.yaml`:
+   `overrides: { "@graphql-markdown/cli": "$@graphql-markdown/cli", "@graphql-markdown/tooling-config": "-" }`.
 
 ## 🏎️ Quick start
 
