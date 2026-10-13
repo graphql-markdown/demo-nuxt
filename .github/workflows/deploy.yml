@@ -37,6 +37,7 @@ jobs:
           # internal links need the prefix. Unset locally, where it serves
           # from the root.
           NUXT_APP_BASE_URL: /demo-nuxt/
+          GRAPHQL_MARKDOWN_TELEMETRY_DEBUG: "1"
 
       - name: Configure git
         run: |
