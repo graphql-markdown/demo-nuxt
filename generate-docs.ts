@@ -14,6 +14,8 @@ export const generate = createGenerateDocs({
   schema: "./schema/api.graphql",
   // Rendered as the reference's intro (title, SEO description and body).
   homepage: "./schema/homepage.md",
+  // Demo builds should not send anonymous usage telemetry.
+  telemetry: false,
   printTypeOptions: {
     exampleSection: {
       directive: "example",
