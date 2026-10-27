@@ -1,0 +1,1 @@
+import{g as e,vn as t}from"./VAAr_vGR.js";import{n}from"./DGDL859k.js";function r(r){let i=n({dir:t(`ltr`)});return e(()=>r?.value||i.dir?.value||`ltr`)}export{r as t};
