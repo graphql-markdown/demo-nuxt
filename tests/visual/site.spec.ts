@@ -52,7 +52,7 @@ for (const [kind, slug] of entries) {
     const response = await page.goto(`/api-reference/${slug}`);
     expect(response?.status()).toBe(200);
     await expect(page).toHaveURL(new RegExp(`/api-reference#${slug}$`));
-    await expect(page.locator(`h2#${slug}`)).toBeVisible();
+    await expect(page.locator(`h2#${slug}`)).toBeInViewport();
   });
 }
 
