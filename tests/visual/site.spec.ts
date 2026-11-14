@@ -22,7 +22,13 @@ const entry = (page: Page, slug: string) =>
 
 // Element screenshots are stitched while scrolling, so the sticky site
 // header/footer would be painted over the entry. Hide them for those shots.
-const hideChrome = "header, footer { display: none !important; }";
+// The entry's code column (ApiCodeColumn, `lg:sticky`) would otherwise land
+// wherever the page happened to be scrolled at capture time; pin it to its
+// natural position so the shot is deterministic.
+const hideChrome = [
+  "header, footer { display: none !important; }",
+  ".api-single-page-entry .lg\\:sticky { position: static !important; }",
+].join("\n");
 
 test("home", async ({ page }) => {
   const response = await page.goto("/");
