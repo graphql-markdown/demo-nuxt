@@ -12,7 +12,10 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   reporter: [
     [process.env.CI ? "dot" : "list"],
-    ["@argos-ci/playwright/reporter", { uploadToArgos: !!process.env.CI }],
+    [
+      "@argos-ci/playwright/reporter",
+      { uploadToArgos: !!process.env.CI && !!process.env.ARGOS_TOKEN },
+    ],
   ],
   use: {
     baseURL: "http://localhost:4173",
