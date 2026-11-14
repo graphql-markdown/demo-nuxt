@@ -27,3 +27,8 @@ logs
 # Generated GraphQL API reference
 content/api-reference/*
 !content/api-reference/.gitkeep
+
+# Playwright / Argos
+/test-results/
+/playwright-report/
+/screenshots/

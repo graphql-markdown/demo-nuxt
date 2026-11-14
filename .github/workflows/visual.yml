@@ -1,0 +1,47 @@
+name: Visual tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  argos:
+    name: Argos screenshots
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7.1.0
+        with:
+          node-version: "24"
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Build site
+        run: pnpm run generate
+        env:
+          GRAPHQL_MARKDOWN_TELEMETRY_DISABLED: "1"
+
+      - name: Screenshot and upload to Argos
+        run: pnpm run test:visual
+        env:
+          ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
