@@ -11,7 +11,13 @@ const fenced = (lang: string, code: unknown): string =>
 
 // Create the generator with demo-nuxt's custom sections and decorators
 export const generate = createGenerateDocs({
-  schema: "./schema/api.graphql",
+  // The schema shared by all GraphQL-Markdown demos, served from the main
+  // repository.
+  schema:
+    "https://raw.githubusercontent.com/graphql-markdown/graphql-markdown/main/tests/e2e/__data__/demo_schema.graphql",
+  loaders: {
+    UrlLoader: "@graphql-tools/url-loader",
+  },
   // Rendered as the reference's intro (title, SEO description and body).
   homepage: "./schema/homepage.md",
   // Demo builds should not send anonymous usage telemetry.

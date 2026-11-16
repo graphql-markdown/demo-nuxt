@@ -1,5 +1,3 @@
-import { fileURLToPath } from "node:url";
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
@@ -12,8 +10,6 @@ export default defineNuxtConfig({
     },
   },
   // @nuxt/ui is now registered by the layer; modules and css are also handled there.
-  // The layer's `gqlmd-generate` module watches generate-docs.ts itself, but
-  // has no way to know which schema file(s) it points at — that part of the
-  // old `watch` array still belongs here.
-  watch: [fileURLToPath(new URL("./schema/api.graphql", import.meta.url))],
+  // The layer's `gqlmd-generate` module watches generate-docs.ts itself; the
+  // schema is fetched from a URL, so there is no local schema file to watch.
 });
