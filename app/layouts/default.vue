@@ -1,5 +1,5 @@
 <template>
-  <main class="min-h-screen overflow-hidden bg-default text-default">
+  <main class="flex min-h-screen flex-col overflow-hidden bg-default text-default">
     <SiteHeader container-class="max-w-6xl px-6">
       <template #right>
         <ULink
@@ -11,7 +11,9 @@
       </template>
     </SiteHeader>
 
-    <slot />
+    <div class="flex-1">
+      <slot />
+    </div>
 
     <SiteFooter />
   </main>
