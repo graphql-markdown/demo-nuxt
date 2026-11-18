@@ -1,6 +1,9 @@
 import { defineConfig, devices } from "@playwright/test";
 
 // Stabilize font rendering across machines (recommended by Argos).
+// VISUAL_PORT lets several demo suites run side by side locally.
+const port = Number(process.env.VISUAL_PORT ?? 4173);
+
 const launchOptions = {
   args: ["--disable-lcd-text", "--font-render-hinting=none"],
 };
@@ -18,7 +21,7 @@ export default defineConfig({
     ],
   ],
   use: {
-    baseURL: "http://localhost:4173",
+    baseURL: `http://localhost:${port}`,
     trace: "on-first-retry",
   },
   projects: [
@@ -27,8 +30,8 @@ export default defineConfig({
   ],
   webServer: {
     // Static output of `pnpm run generate`; build it before running tests.
-    command: "pnpm exec serve -l 4173 .output/public",
-    url: "http://localhost:4173",
+    command: `pnpm exec serve -l ${port} .output/public`,
+    url: `http://localhost:${port}`,
     reuseExistingServer: !process.env.CI,
     env: { NO_UPDATE_CHECK: "1" },
   },
