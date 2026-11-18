@@ -1,0 +1,4 @@
+/* Nuxt green: the theme layer hard-codes the dark primary, override it here. */
+.dark {
+  --ui-primary: #00dc82;
+}
