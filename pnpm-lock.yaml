@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@graphql-markdown/nuxt-theme':
-        specifier: ^0.2.2
-        version: 0.2.2(b10e804d8f94665baeab02d610b6e672)
+        specifier: ^0.2.4
+        version: 0.2.4(36c98e94945a5a54a26dd32680924fc8)
       '@nuxt/content':
         specifier: ^3.16.2
         version: 3.16.2(@nuxt/schema@4.6.4)(@oxc-project/types@0.155.0)(better-sqlite3@13.0.3)(confbox@0.3.1)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(magic-string@1.4.5)(magicast@0.5.5)(mlly@1.8.2)(oxc-parser@0.139.0)(rolldown@1.2.15)(rollup@4.67.5)(supports-color@10.2.2)(vite@8.3.5(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
@@ -44,7 +44,7 @@ importers:
         version: 7.8.0(@types/node@26.6.6)(supports-color@10.2.2)
       '@graphql-markdown/cli':
         specifier: ^1.2.2
-        version: 1.2.2(@graphql-markdown/helpers@1.2.5(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0))(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(prettier@3.10.0)(typescript@5.9.3)
+        version: 1.2.2(@graphql-markdown/helpers@1.2.6(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0))(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(prettier@3.10.0)(typescript@5.9.3)
       '@graphql-markdown/graphql':
         specifier: ^1.3.5
         version: 1.3.5(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)
@@ -624,16 +624,17 @@ packages:
     peerDependencies:
       vue: '>=3.3.0'
 
-  '@graphql-hive/signal@2.0.0':
-    resolution: {integrity: sha512-Pz8wB3K0iU6ae9S1fWfsmJX24CcGeTo6hE7T44ucmV/ALKRj+bxClmqrYcDT7v3f0d12Rh4FAXBb6gon+WkDpQ==}
-    engines: {node: '>=20.0.0'}
-
   '@graphql-hive/signal@2.1.0':
     resolution: {integrity: sha512-Ypn7B005C1gGxTn8b0cgM7YkEHkH2gmqy78O6Xd/Dx81lGqLk/TXh3IxgiBRlYOoaqgfjqsS12a/vNrVRxAoJQ==}
     engines: {node: '>=20.0.0'}
 
   '@graphql-markdown/cli@1.2.2':
     resolution: {integrity: sha512-GRFvpFkEGvqSyr8EH9wYL61936BfM1qztvTj/tlTZSbsxC59cdhwSEm9/lesA7DcZ/9VdHa2PZfWfVrZbVWBgA==}
+    engines: {node: '>=22.18.0'}
+    hasBin: true
+
+  '@graphql-markdown/cli@1.2.3':
+    resolution: {integrity: sha512-cf6+Udx2+e0/GENr+8fzD+Lr4nYdyuccYrFxGNuDoswa4Vq5WKT7RVkWGbZtZrKwLK7IsM/UTuyytlDY8PYRMw==}
     engines: {node: '>=22.18.0'}
     hasBin: true
 
@@ -653,12 +654,42 @@ packages:
       graphql-config:
         optional: true
 
+  '@graphql-markdown/core@1.27.0':
+    resolution: {integrity: sha512-kdz8k8NZEWKf7AK6+AOdrtM46+2kT/8QGn9MMMrzmIdZFW5rFLgH8xvWm049Ecslpj2E2IqD2Oy+AB/z8cZO9A==}
+    engines: {node: '>=22.18.0'}
+    peerDependencies:
+      '@graphql-markdown/diff': ^1.1.25
+      '@graphql-markdown/helpers': ^1.2.6
+      graphql: ^16.0.0 || ^17.0.0
+      graphql-config: ^5.1.8 || ^6.0.0
+    peerDependenciesMeta:
+      '@graphql-markdown/diff':
+        optional: true
+      '@graphql-markdown/helpers':
+        optional: true
+      graphql-config:
+        optional: true
+
   '@graphql-markdown/formatters@1.2.2':
     resolution: {integrity: sha512-Zky+3FN87NbtH9v1zezllU2pVxm43RoUAr1/rnZ9L9MTIFU+gCnpRghQPJrah3D5S03kvlSwm4sQbQ91BOPF4Q==}
     engines: {node: '>=22.18.0'}
 
+  '@graphql-markdown/formatters@1.2.3':
+    resolution: {integrity: sha512-jTsI0240nfbOAwwUszeIkvaswql7FGcHJkUgLxJVsRAduAeXUOsNXGpN2rABSEyeRkusc6BQulWQ3qAFJj8K8g==}
+    engines: {node: '>=22.18.0'}
+
   '@graphql-markdown/graphql@1.3.5':
     resolution: {integrity: sha512-t/beUqKLOn3Lm+I4foJSk9JQGUlotMPY0VSjz1igRxKHC84QFr2l6jka2og7ncedMhCMDUVgvXf34MkCIWlkjg==}
+    engines: {node: '>=22.18.0'}
+    peerDependencies:
+      graphql: ^16.0.0 || ^17.0.0
+      graphql-config: ^5.1.8 || ^6.0.0
+    peerDependenciesMeta:
+      graphql-config:
+        optional: true
+
+  '@graphql-markdown/graphql@1.3.6':
+    resolution: {integrity: sha512-mE6jcvNl32A6g1J2+oC70pI7WXXIqnqMAbFNQiO04xBTfoBfgV86EPGIsmcmGYmW2m02IjZNjc2ZW3hXprwe6g==}
     engines: {node: '>=22.18.0'}
     peerDependencies:
       graphql: ^16.0.0 || ^17.0.0
@@ -673,12 +704,22 @@ packages:
     peerDependencies:
       graphql: ^16.0.0 || ^17.0.0
 
+  '@graphql-markdown/helpers@1.2.6':
+    resolution: {integrity: sha512-OGqJQlnHQK35HP5+3S/CIfIANDzcsPsUMO1u9YrtSv6tPK6J/14nJ3wpBYp2yeH5Hvt/fmgOkVgCBOqZJXRKIQ==}
+    engines: {node: '>=22.18.0'}
+    peerDependencies:
+      graphql: ^16.0.0 || ^17.0.0
+
   '@graphql-markdown/logger@1.1.4':
     resolution: {integrity: sha512-WKsD8D+3rEs3b7STBEVPHzPG6d8cdeNJK5bSYlF/LoMLbYMakXpqLQswO03eqFkgMXrX5EHprDW0U/T2iDlpmQ==}
     engines: {node: '>=22.18.0'}
 
-  '@graphql-markdown/nuxt-theme@0.2.2':
-    resolution: {integrity: sha512-oVW3XvSC0nSmCFazmTvMSoINL0n0HFWB5r5j4Gv16QP1CfjdV1cxDocYQiTtjrnmTDOphggWftATQ/n1unVl4w==}
+  '@graphql-markdown/logger@1.1.5':
+    resolution: {integrity: sha512-aKQZOj9kpfg6K15AXvyaxJEiigmGIeZadiV/x1F0g/mSKI5k/01CmDarokoT9fpF7KCNdkFopXDPe8Hw71OvUg==}
+    engines: {node: '>=22.18.0'}
+
+  '@graphql-markdown/nuxt-theme@0.2.4':
+    resolution: {integrity: sha512-julyvmPWN0SPwe4cUTAt0h0LRg44T7Uqibx+T1JNgSlUH20ut7y8vPVD0grDO83q5xZXA7qewZQEEbkvxjZI0w==}
     engines: {node: '>=22.18.0'}
     hasBin: true
 
@@ -686,16 +727,37 @@ packages:
     resolution: {integrity: sha512-QpAg4y3VG02OLCRGEYwiTPd11Wmk20gT8uxQzjAZyxRI8Ogsu+HrLwK6yy6r1GNYM43CHnfY5gpYaJuMXKHUqQ==}
     engines: {node: '>=22.18.0'}
 
+  '@graphql-markdown/printer-legacy@1.20.0':
+    resolution: {integrity: sha512-vNjHkEc0MR8xjZ39Ip/+yryRHwrgsa9gPJnBxUJePeq/AyJxO9nPG80QU5Ckg8re1UXqe2c7SITxRDazD5D++A==}
+    engines: {node: '>=22.18.0'}
+
   '@graphql-markdown/telemetry@0.2.0':
     resolution: {integrity: sha512-1Jy9B7RE2XK8dL2K50rsVM/4iviwpdyjatG5AiiLPiQVeLvNguyrx7AOJPlF3vu17bmRMNm8rsPooAISd+DLWg==}
+    engines: {node: '>=22.18.0'}
+
+  '@graphql-markdown/telemetry@0.2.1':
+    resolution: {integrity: sha512-ZXBnUqmFaWMxYcKtKCVIyV84RuoEy350XTE24ORjmnFdw0S61lFP0zd+8cOsvL34b0VOs++Zz/CaU0yn5rPnHw==}
     engines: {node: '>=22.18.0'}
 
   '@graphql-markdown/types@1.17.1':
     resolution: {integrity: sha512-20nq1MXZKLQ5rx1tLGd0atbD9z7R3VXizMAiypLk45qu9d+D36McGz+XWQfJ2NF3Hcet6v+BRVzr10+K6eE67g==}
     engines: {node: '>=22.18.0'}
 
+  '@graphql-markdown/types@1.18.0':
+    resolution: {integrity: sha512-RHsVveBY2arufWz29SZiNquwYtD8ojWPtvBcV5a//LkIW9VKOPeZsMf7Ib6UqaAbM26izrvbmemnf8NErZQ4Tw==}
+    engines: {node: '>=22.18.0'}
+
   '@graphql-markdown/utils@1.14.2':
     resolution: {integrity: sha512-tWGLktIMKtcNJSn8Y5ejk/lA+7r0H/2qXBVRnhEkBZ0BTDYz4mdye+ulyzp5K/dECFApelZ42z3Q5Irx1lyKEg==}
+    engines: {node: '>=22.18.0'}
+    peerDependencies:
+      prettier: 3.9.10
+    peerDependenciesMeta:
+      prettier:
+        optional: true
+
+  '@graphql-markdown/utils@1.14.3':
+    resolution: {integrity: sha512-28+9AzBmL6Tvg0XCVjZUMSh2jWaMuunOWvXnGbsrawY6Y3kuG0ny8wJhAA4rdnkUr8bxDw/Hx3B/zczCAoHYQg==}
     engines: {node: '>=22.18.0'}
     peerDependencies:
       prettier: 3.9.10
@@ -733,23 +795,11 @@ packages:
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
 
-  '@graphql-tools/executor-http@3.4.1':
-    resolution: {integrity: sha512-OcIfgG/F8ysubB20PCf9SiCcxkwMOd8n9GmnpwpYhU7s/DDF13Ady969dPzRzAsgjNWjSS5DqzvVN8e2OphtiA==}
-    engines: {node: '>=20.0.0'}
-    peerDependencies:
-      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
-
   '@graphql-tools/executor-http@3.6.2':
     resolution: {integrity: sha512-F3OuO/FEf7o6Jj8INxWfm1A8rW2NIjINn6ovHs57kTtfy+FNB/P8YI3mqme1Qsg2OB2BxQTEmYcYJiv4lR/o2A==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
-
-  '@graphql-tools/executor-legacy-ws@2.0.8':
-    resolution: {integrity: sha512-8MVbXbZ2P8i3/GbUvJzPajXrMH/zkmWEj50sR2/Y4p74EXif8TIzWPuDOSUAgMMdTNKaa02xLKnpKMrcpSM2dg==}
-    engines: {node: '>=22.18.0'}
-    peerDependencies:
-      graphql: ^16.0.0 || ^17.0.0
 
   '@graphql-tools/executor-legacy-ws@2.0.9':
     resolution: {integrity: sha512-Vhy+iojo1PNtASnwhucO2IIxhouVDPC1xh3YGOYgMPhEher3s0/C2E01bVq9AEVjK+M6qUR2i4qHLw7ERADhhA==}
@@ -813,12 +863,6 @@ packages:
 
   '@graphql-tools/schema@11.0.8':
     resolution: {integrity: sha512-+LZYd+TpWUg/2CqvpJtSKA4O1CX5rMNv0ZUsUd4uGNPD07Q1Eq+/QDaZdXfP7vIm6K/mkiXt25mWc7zao3Mb7g==}
-    engines: {node: '>=22.18.0'}
-    peerDependencies:
-      graphql: ^16.0.0 || ^17.0.0
-
-  '@graphql-tools/url-loader@10.0.8':
-    resolution: {integrity: sha512-OW2mZ7jjNwfiqmzkZ5a0914qjXJ7hRjm0gOL/SpGQ/C4Ad4lSrKq2PjFUZvUuu0Z7PjHpXI4CxynHtv9iIfnZg==}
     engines: {node: '>=22.18.0'}
     peerDependencies:
       graphql: ^16.0.0 || ^17.0.0
@@ -6577,13 +6621,11 @@ snapshots:
       '@floating-ui/utils': 0.2.12
       vue: 3.5.45(typescript@5.9.3)
 
-  '@graphql-hive/signal@2.0.0': {}
-
   '@graphql-hive/signal@2.1.0': {}
 
-  '@graphql-markdown/cli@1.2.2(@graphql-markdown/helpers@1.2.5(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0))(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(prettier@3.10.0)(typescript@5.9.3)':
+  '@graphql-markdown/cli@1.2.2(@graphql-markdown/helpers@1.2.6(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0))(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(prettier@3.10.0)(typescript@5.9.3)':
     dependencies:
-      '@graphql-markdown/core': 1.26.1(@graphql-markdown/helpers@1.2.5(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0))(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)
+      '@graphql-markdown/core': 1.26.1(@graphql-markdown/helpers@1.2.6(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0))(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)
       '@graphql-markdown/logger': 1.1.4
       '@graphql-markdown/telemetry': 0.2.0
       '@graphql-markdown/types': 1.17.1
@@ -6602,7 +6644,28 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@graphql-markdown/core@1.26.1(@graphql-markdown/helpers@1.2.5(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0))(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)':
+  '@graphql-markdown/cli@1.2.3(@graphql-markdown/helpers@1.2.6(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0))(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(prettier@3.10.0)(typescript@5.9.3)':
+    dependencies:
+      '@graphql-markdown/core': 1.27.0(@graphql-markdown/helpers@1.2.6(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0))(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)
+      '@graphql-markdown/logger': 1.1.5
+      '@graphql-markdown/telemetry': 0.2.1
+      '@graphql-markdown/types': 1.18.0
+      commander: 15.0.0
+      graphql-config: 6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3)
+    transitivePeerDependencies:
+      - '@fastify/websocket'
+      - '@graphql-markdown/diff'
+      - '@graphql-markdown/helpers'
+      - '@types/node'
+      - bufferutil
+      - cosmiconfig-toml-loader
+      - crossws
+      - graphql
+      - prettier
+      - typescript
+      - utf-8-validate
+
+  '@graphql-markdown/core@1.26.1(@graphql-markdown/helpers@1.2.6(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0))(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)':
     dependencies:
       '@fastify/deepmerge': 3.2.4
       '@graphql-markdown/graphql': 1.3.5(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)
@@ -6613,7 +6676,23 @@ snapshots:
       '@graphql-markdown/utils': 1.14.2(prettier@3.10.0)
       graphql: 17.1.0
     optionalDependencies:
-      '@graphql-markdown/helpers': 1.2.5(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)
+      '@graphql-markdown/helpers': 1.2.6(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)
+      graphql-config: 6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3)
+    transitivePeerDependencies:
+      - prettier
+
+  '@graphql-markdown/core@1.27.0(@graphql-markdown/helpers@1.2.6(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0))(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)':
+    dependencies:
+      '@fastify/deepmerge': 3.2.4
+      '@graphql-markdown/graphql': 1.3.6(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)
+      '@graphql-markdown/logger': 1.1.5
+      '@graphql-markdown/printer-legacy': 1.20.0(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)
+      '@graphql-markdown/telemetry': 0.2.1
+      '@graphql-markdown/types': 1.18.0
+      '@graphql-markdown/utils': 1.14.3(prettier@3.10.0)
+      graphql: 17.1.0
+    optionalDependencies:
+      '@graphql-markdown/helpers': 1.2.6(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)
       graphql-config: 6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3)
     transitivePeerDependencies:
       - prettier
@@ -6628,10 +6707,31 @@ snapshots:
       - graphql-config
       - prettier
 
+  '@graphql-markdown/formatters@1.2.3(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)':
+    dependencies:
+      '@graphql-markdown/helpers': 1.2.6(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)
+      '@graphql-markdown/types': 1.18.0
+      '@graphql-markdown/utils': 1.14.3(prettier@3.10.0)
+    transitivePeerDependencies:
+      - graphql
+      - graphql-config
+      - prettier
+
   '@graphql-markdown/graphql@1.3.5(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)':
     dependencies:
       '@graphql-markdown/types': 1.17.1
       '@graphql-markdown/utils': 1.14.2(prettier@3.10.0)
+      '@graphql-tools/load': 9.1.2(graphql@17.1.0)
+      graphql: 17.1.0
+    optionalDependencies:
+      graphql-config: 6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3)
+    transitivePeerDependencies:
+      - prettier
+
+  '@graphql-markdown/graphql@1.3.6(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)':
+    dependencies:
+      '@graphql-markdown/types': 1.18.0
+      '@graphql-markdown/utils': 1.14.3(prettier@3.10.0)
       '@graphql-tools/load': 9.1.2(graphql@17.1.0)
       graphql: 17.1.0
     optionalDependencies:
@@ -6649,14 +6749,28 @@ snapshots:
       - graphql-config
       - prettier
 
+  '@graphql-markdown/helpers@1.2.6(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)':
+    dependencies:
+      '@graphql-markdown/graphql': 1.3.6(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)
+      '@graphql-markdown/types': 1.18.0
+      '@graphql-markdown/utils': 1.14.3(prettier@3.10.0)
+      graphql: 17.1.0
+    transitivePeerDependencies:
+      - graphql-config
+      - prettier
+
   '@graphql-markdown/logger@1.1.4':
     dependencies:
       '@graphql-markdown/types': 1.17.1
 
-  '@graphql-markdown/nuxt-theme@0.2.2(b10e804d8f94665baeab02d610b6e672)':
+  '@graphql-markdown/logger@1.1.5':
+    dependencies:
+      '@graphql-markdown/types': 1.18.0
+
+  '@graphql-markdown/nuxt-theme@0.2.4(36c98e94945a5a54a26dd32680924fc8)':
     dependencies:
       '@clack/prompts': 1.8.1
-      '@graphql-markdown/cli': 1.2.2(@graphql-markdown/helpers@1.2.5(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0))(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(prettier@3.10.0)(typescript@5.9.3)
+      '@graphql-markdown/cli': 1.2.3(@graphql-markdown/helpers@1.2.6(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0))(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(prettier@3.10.0)(typescript@5.9.3)
       '@nuxt/content': 3.16.2(@nuxt/schema@4.6.4)(@oxc-project/types@0.155.0)(better-sqlite3@13.0.3)(confbox@0.3.1)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(magic-string@1.4.5)(magicast@0.5.5)(mlly@1.8.2)(oxc-parser@0.139.0)(rolldown@1.2.15)(rollup@4.67.5)(supports-color@10.2.2)(vite@8.3.5(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
       '@nuxt/kit': 4.6.4(@nuxt/schema@4.6.4)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.5)(mlly@1.8.2)(oxc-parser@0.139.0)(rolldown@1.2.15)(unplugin@3.7.0(esbuild@0.28.2)(rolldown@1.2.15)(rollup@4.67.5)(vite@8.3.5(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
       '@nuxt/ui': 4.12.0(023d40d8fb068d16eaf9e25c156a62ad)
@@ -6779,11 +6893,32 @@ snapshots:
       - graphql-config
       - prettier
 
+  '@graphql-markdown/printer-legacy@1.20.0(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)':
+    dependencies:
+      '@graphql-markdown/formatters': 1.2.3(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)
+      '@graphql-markdown/graphql': 1.3.6(graphql-config@6.0.0(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)(typescript@5.9.3))(graphql@17.1.0)(prettier@3.10.0)
+      '@graphql-markdown/types': 1.18.0
+      '@graphql-markdown/utils': 1.14.3(prettier@3.10.0)
+    transitivePeerDependencies:
+      - graphql
+      - graphql-config
+      - prettier
+
   '@graphql-markdown/telemetry@0.2.0':
     dependencies:
       '@graphql-markdown/types': 1.17.1
 
+  '@graphql-markdown/telemetry@0.2.1':
+    dependencies:
+      '@graphql-markdown/types': 1.18.0
+
   '@graphql-markdown/types@1.17.1':
+    dependencies:
+      '@graphql-tools/load': 9.1.2(graphql@17.1.0)
+      '@graphql-tools/utils': 13.2.2(graphql@17.1.0)
+      graphql: 17.1.0
+
+  '@graphql-markdown/types@1.18.0':
     dependencies:
       '@graphql-tools/load': 9.1.2(graphql@17.1.0)
       '@graphql-tools/utils': 13.2.2(graphql@17.1.0)
@@ -6792,6 +6927,12 @@ snapshots:
   '@graphql-markdown/utils@1.14.2(prettier@3.10.0)':
     dependencies:
       '@graphql-markdown/types': 1.17.1
+    optionalDependencies:
+      prettier: 3.10.0
+
+  '@graphql-markdown/utils@1.14.3(prettier@3.10.0)':
+    dependencies:
+      '@graphql-markdown/types': 1.18.0
     optionalDependencies:
       prettier: 3.10.0
 
@@ -6843,21 +6984,6 @@ snapshots:
       - crossws
       - utf-8-validate
 
-  '@graphql-tools/executor-http@3.4.1(@types/node@26.6.6)(graphql@17.1.0)':
-    dependencies:
-      '@graphql-hive/signal': 2.0.0
-      '@graphql-tools/executor-common': 1.1.0(graphql@17.1.0)
-      '@graphql-tools/utils': 12.0.4(graphql@17.1.0)
-      '@repeaterjs/repeater': 3.1.0
-      '@whatwg-node/disposablestack': 0.0.6
-      '@whatwg-node/fetch': 0.10.13
-      '@whatwg-node/promise-helpers': 1.3.2
-      graphql: 17.1.0
-      meros: 1.3.2(@types/node@26.6.6)
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - '@types/node'
-
   '@graphql-tools/executor-http@3.6.2(@types/node@26.6.6)(graphql@17.1.0)':
     dependencies:
       '@graphql-hive/signal': 2.1.0
@@ -6872,18 +6998,6 @@ snapshots:
       tslib: 2.8.1
     transitivePeerDependencies:
       - '@types/node'
-
-  '@graphql-tools/executor-legacy-ws@2.0.8(graphql@17.1.0)':
-    dependencies:
-      '@graphql-tools/utils': 13.2.2(graphql@17.1.0)
-      '@types/ws': 8.18.2
-      graphql: 17.1.0
-      isomorphic-ws: 5.0.0(ws@8.22.0)
-      tslib: 2.8.1
-      ws: 8.22.0
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
 
   '@graphql-tools/executor-legacy-ws@2.0.9(graphql@17.1.0)':
     dependencies:
@@ -6970,28 +7084,6 @@ snapshots:
       '@graphql-tools/utils': 13.2.2(graphql@17.1.0)
       graphql: 17.1.0
       tslib: 2.8.1
-
-  '@graphql-tools/url-loader@10.0.8(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)':
-    dependencies:
-      '@graphql-tools/executor-graphql-ws': 3.2.0(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)
-      '@graphql-tools/executor-http': 3.4.1(@types/node@26.6.6)(graphql@17.1.0)
-      '@graphql-tools/executor-legacy-ws': 2.0.8(graphql@17.1.0)
-      '@graphql-tools/utils': 13.2.2(graphql@17.1.0)
-      '@graphql-tools/wrap': 11.2.1(graphql@17.1.0)
-      '@types/ws': 8.18.2
-      '@whatwg-node/fetch': 0.12.1
-      '@whatwg-node/promise-helpers': 2.0.1
-      graphql: 17.1.0
-      isomorphic-ws: 5.0.0(ws@8.22.0)
-      sync-fetch: 0.7.1
-      tslib: 2.8.1
-      ws: 8.22.0
-    transitivePeerDependencies:
-      - '@fastify/websocket'
-      - '@types/node'
-      - bufferutil
-      - crossws
-      - utf-8-validate
 
   '@graphql-tools/url-loader@10.0.9(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)':
     dependencies:
@@ -10326,7 +10418,7 @@ snapshots:
       '@graphql-tools/json-file-loader': 9.0.8(graphql@17.1.0)
       '@graphql-tools/load': 9.1.2(graphql@17.1.0)
       '@graphql-tools/merge': 10.0.8(graphql@17.1.0)
-      '@graphql-tools/url-loader': 10.0.8(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)
+      '@graphql-tools/url-loader': 10.0.9(@types/node@26.6.6)(crossws@0.4.15(srvx@1.0.5))(graphql@17.1.0)
       '@graphql-tools/utils': 13.2.2(graphql@17.1.0)
       cosmiconfig: 8.3.6(typescript@5.9.3)
       graphql: 17.1.0

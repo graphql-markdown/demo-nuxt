@@ -12,7 +12,7 @@
     "postinstall": "nuxi prepare"
   },
   "dependencies": {
-    "@graphql-markdown/nuxt-theme": "^0.2.2",
+    "@graphql-markdown/nuxt-theme": "^0.2.4",
     "@nuxt/content": "^3.16.2",
     "@nuxt/ui": "^4.12.0",
     "better-sqlite3": "^13.0.3",
