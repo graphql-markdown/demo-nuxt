@@ -8,4 +8,4 @@ import{D as e,E as t,Lt as n,On as r,Zn as i,_ as a,b as o,bt as s,et as c,g as 
 `),a(`span`,{class:`token-keyword`},`type`),t(),a(`span`,{class:`token-type`},`Query`),t(` {
   `),a(`span`,{class:`token-field`},`projects`),t(`(status: `),a(`span`,{class:`token-type`},`ProjectStatus`),t(`):
     `),a(`span`,{class:`token-type`},`ProjectConnection!`),t(`
-}`)])])],-1)]]),_:1}),a(`section`,M,[e(h,{class:`mx-auto max-w-6xl gap-8 px-6 py-12 md:grid-cols-3`},{default:p(()=>[(d(),o(f,null,s(i,t=>e(u,{key:t.headline,title:t.title,variant:`naked`,ui:{container:`p-0 sm:p-0 gap-y-0`,title:`mt-3 text-lg font-normal`}},{leading:p(()=>[a(`p`,N,m(t.headline),1)]),_:2},1032,[`title`])),64))]),_:1})])])}}}),[[`__scopeId`,`data-v-88af0285`]]);export{P as default};
+}`)])])],-1)]]),_:1}),a(`section`,M,[e(h,{class:`mx-auto max-w-6xl gap-8 px-4 sm:px-6 lg:px-8 py-12 md:grid-cols-3`},{default:p(()=>[(d(),o(f,null,s(i,t=>e(u,{key:t.headline,title:t.title,variant:`naked`,ui:{container:`p-0 sm:p-0 gap-y-0`,title:`mt-3 text-lg font-normal`}},{leading:p(()=>[a(`p`,N,m(t.headline),1)]),_:2},1032,[`title`])),64))]),_:1})])])}}}),[[`__scopeId`,`data-v-90a96912`]]);export{P as default};
