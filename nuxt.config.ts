@@ -10,6 +10,12 @@ export default defineNuxtConfig({
     },
   },
   css: ["~/assets/css/brand.css"],
+  // Every demo shares the graphql-markdown.dev origin, so each one needs its
+  // own localStorage key or toggling the theme in one changes them all.
+  colorMode: {
+    preference: "system",
+    storageKey: "gqlmd-demo-nuxt-color-mode",
+  },
   // @nuxt/ui is now registered by the layer; modules and css are also handled there.
   // The layer's `gqlmd-generate` module watches generate-docs.ts itself; the
   // schema is fetched from a URL, so there is no local schema file to watch.
