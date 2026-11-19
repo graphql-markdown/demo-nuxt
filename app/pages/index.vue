@@ -45,7 +45,7 @@
     </UPageHero>
 
     <section class="border-y border-default bg-muted">
-      <UPageGrid class="mx-auto max-w-6xl gap-8 px-6 py-12 md:grid-cols-3">
+      <UPageGrid class="mx-auto max-w-6xl gap-8 px-4 sm:px-6 lg:px-8 py-12 md:grid-cols-3">
         <UPageCard
           v-for="highlight in highlights"
           :key="highlight.headline"
