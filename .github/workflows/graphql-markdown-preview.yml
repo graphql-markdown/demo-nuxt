@@ -1,0 +1,127 @@
+# Manually runs this demo against an unreleased graphql-markdown PR, using the
+# pkg.pr.new previews of its packages. The PR must be a same-repo
+# graphql-markdown PR whose "Preview packages" workflow has already run.
+# The package overrides are written to pnpm-workspace.yaml on the runner only;
+# nothing is committed or pushed.
+
+name: graphql-markdown PR preview
+run-name: "Preview graphql-markdown#${{ inputs.pr }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: "graphql-markdown pull request number"
+        required: true
+        type: number
+
+permissions:
+  contents: read
+  # Argos authenticates through GitHub Actions OIDC, per repository.
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ inputs.pr }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    name: Preview graphql-markdown#${{ inputs.pr }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7.1.0
+        with:
+          node-version: "24"
+          cache: pnpm
+
+      - name: Use the PR's preview packages
+        env:
+          PR: ${{ inputs.pr }}
+        run: |
+          set -euo pipefail
+          if [[ ! "$PR" =~ ^[0-9]+$ ]]; then
+            echo "::error::pull request number must be numeric, got '$PR'"
+            exit 1
+          fi
+
+          BASE="https://pkg.pr.new/graphql-markdown/graphql-markdown"
+          PACKAGES="cli core formatters graphql helpers logger nuxt-theme printer-legacy telemetry types utils"
+
+          if ! curl -fsSIL "$BASE/@graphql-markdown/core@$PR" >/dev/null; then
+            echo "::error::No pkg.pr.new preview for graphql-markdown#$PR (only same-repo PRs are published; wait for its \"Preview packages\" workflow)"
+            exit 1
+          fi
+
+          # Preview packages depend on each other through pkg.pr.new URLs, which
+          # pnpm blocks in subdependencies by default. Allowed for this run only.
+          BLOCK="blockExoticSubdeps: false"$'\n'
+          BLOCK+="overrides:"$'\n'
+          for name in $PACKAGES; do
+            BLOCK+="  \"@graphql-markdown/$name\": $BASE/@graphql-markdown/$name@$PR"$'\n'
+          done
+          printf '%s' "$BLOCK" >> pnpm-workspace.yaml
+          echo "Added to pnpm-workspace.yaml:"
+          printf '%s' "$BLOCK"
+
+      - name: Install dependencies
+        # The overrides change the lockfile; the change is never committed.
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Check every graphql-markdown package comes from the preview
+        run: |
+          SCRIPT=$(cat <<'EOF'
+          let raw = "";
+          process.stdin.on("data", (chunk) => (raw += chunk));
+          process.stdin.on("end", () => {
+            const found = new Map();
+            const walk = (deps = {}) => {
+              for (const [name, info] of Object.entries(deps)) {
+                if (name.startsWith("@graphql-markdown/")) {
+                  found.set(`${name}@${info.version}`, {
+                    name,
+                    version: info.version,
+                    resolved: info.resolved ?? info.path ?? "",
+                  });
+                }
+                walk({ ...info.dependencies, ...info.optionalDependencies });
+              }
+            };
+            for (const project of JSON.parse(raw)) {
+              walk({ ...project.dependencies, ...project.devDependencies, ...project.optionalDependencies });
+            }
+            const rows = [...found.values()].sort((a, b) => a.name.localeCompare(b.name));
+            console.log("package".padEnd(40), "version");
+            for (const row of rows) console.log(row.name.padEnd(40), row.version);
+            const fallback = rows.filter((row) => !String(row.version).startsWith("0.0.0-"));
+            if (rows.length === 0 || fallback.length > 0) {
+              console.error("Not every @graphql-markdown package resolved to a 0.0.0-* preview:");
+              for (const row of fallback) console.error(`  ${row.name} ${row.version} (${row.resolved})`);
+              process.exitCode = 1;
+            }
+          });
+          EOF
+          )
+          pnpm ls --depth Infinity --json | node -e "$SCRIPT"
+
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Build site
+        run: pnpm run generate
+        env:
+          GRAPHQL_MARKDOWN_TELEMETRY_DISABLED: "1"
+
+      - name: Screenshot and upload to Argos
+        run: pnpm run test:visual
+        env:
+          # A branch name of its own keeps this build compared against main's
+          # baseline without ever becoming the baseline.
+          ARGOS_BRANCH: graphql-markdown-pr-${{ inputs.pr }}
