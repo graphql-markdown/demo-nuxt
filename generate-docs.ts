@@ -22,6 +22,9 @@ export const generate = createGenerateDocs({
   homepage: "./schema/homepage.md",
   // Demo builds should not send anonymous usage telemetry.
   telemetry: false,
+  // The theme formatter, extended to link the types named in deprecation
+  // reasons (see custom-mdx.mjs).
+  formatter: new URL("./custom-mdx.mjs", import.meta.url).href,
   printTypeOptions: {
     exampleSection: {
       directive: "example",
