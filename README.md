@@ -58,11 +58,17 @@ Documentation is regenerated automatically when `generate-docs.ts` changes.
 
 `@graphql-markdown/nuxt-theme` and the other `@graphql-markdown/*` packages come from the npm registry. pnpm holds back releases younger than its minimum release age. `minimumReleaseAgeExclude` in `pnpm-workspace.yaml` lists the exact GraphQL-Markdown versions the demo adopts as soon as they're published. Add the new versions there when bumping.
 
-To try an unreleased theme change, install it from a branch of the [graphql-markdown monorepo](https://github.com/graphql-markdown/graphql-markdown):
+### Testing an unreleased graphql-markdown change
 
-1. Point the dependency at the branch: `github:graphql-markdown/graphql-markdown#<branch>&path:/packages/nuxt-theme`.
-2. The monorepo pins sibling packages with its own `workspace:` protocol, so map them to the registry in `pnpm-workspace.yaml`:
-   `overrides: { "@graphql-markdown/cli": "$@graphql-markdown/cli", "@graphql-markdown/tooling-config": "-" }`.
+Every same-repository pull request on the [graphql-markdown monorepo](https://github.com/graphql-markdown/graphql-markdown) publishes its packages to [pkg.pr.new](https://pkg.pr.new). To run this demo against one:
+
+- **In CI:** Actions → **graphql-markdown PR preview** → Run workflow with the PR number. It installs the previews, checks that every `@graphql-markdown/*` package resolved to them, builds the site and runs the visual tests (Argos branch `graphql-markdown-pr-<number>`).
+- **Locally:** add an `overrides:` entry in `pnpm-workspace.yaml` for each `@graphql-markdown/*` package, then run `pnpm install --no-frozen-lockfile`. Don't commit the change.
+
+  ```yaml
+  overrides:
+    "@graphql-markdown/core": https://pkg.pr.new/graphql-markdown/graphql-markdown/@graphql-markdown/core@<pr-number>
+  ```
 
 ## 🏎️ Quick start
 
