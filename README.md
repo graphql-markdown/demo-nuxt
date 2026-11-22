@@ -62,7 +62,7 @@ Documentation is regenerated automatically when `generate-docs.ts` changes.
 
 Every same-repository pull request on the [graphql-markdown monorepo](https://github.com/graphql-markdown/graphql-markdown) publishes its packages to [pkg.pr.new](https://pkg.pr.new). To run this demo against one:
 
-- **In CI:** Actions → **graphql-markdown PR preview** → Run workflow with the PR number. It installs the previews, checks that every `@graphql-markdown/*` package resolved to them, builds the site and runs the visual tests (Argos branch `graphql-markdown-pr-<number>`).
+- **In CI:** Actions → **graphql-markdown PR preview** → Run workflow with the PR number. It installs the previews, checks that every `@graphql-markdown/*` package resolved to them, builds the site and runs the visual tests. Screenshots are kept as a workflow artifact; nothing is uploaded to Argos, since the run executes code from the PR.
 - **Locally:** add an `overrides:` entry in `pnpm-workspace.yaml` for each `@graphql-markdown/*` package, then run `pnpm install --no-frozen-lockfile`. Don't commit the change.
 
   ```yaml

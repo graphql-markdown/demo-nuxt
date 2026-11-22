@@ -15,10 +15,11 @@ on:
         required: true
         type: number
 
+# The previews are code from another repository's pull request and run during
+# install and build, so this workflow gets a read-only token and no OIDC token
+# (no Argos upload), and it neither restores nor saves the dependency cache.
 permissions:
   contents: read
-  # Argos authenticates through GitHub Actions OIDC, per repository.
-  id-token: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ inputs.pr }}
@@ -40,15 +41,23 @@ jobs:
         uses: actions/setup-node@v7.1.0
         with:
           node-version: "24"
-          cache: pnpm
 
       - name: Use the PR's preview packages
         env:
           PR: ${{ inputs.pr }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           if [[ ! "$PR" =~ ^[0-9]+$ ]]; then
             echo "::error::pull request number must be numeric, got '$PR'"
+            exit 1
+          fi
+
+          # Only same-repository PRs (authors with write access) are trusted:
+          # a fork could change its copy of the publish workflow.
+          HEAD_REPO=$(gh api "repos/graphql-markdown/graphql-markdown/pulls/$PR" --jq .head.repo.full_name)
+          if [[ "$HEAD_REPO" != "graphql-markdown/graphql-markdown" ]]; then
+            echo "::error::graphql-markdown#$PR comes from '$HEAD_REPO', not the graphql-markdown repository"
             exit 1
           fi
 
@@ -119,9 +128,14 @@ jobs:
         env:
           GRAPHQL_MARKDOWN_TELEMETRY_DISABLED: "1"
 
-      - name: Screenshot and upload to Argos
+      - name: Visual tests
         run: pnpm run test:visual
-        env:
-          # A branch name of its own keeps this build compared against main's
-          # baseline without ever becoming the baseline.
-          ARGOS_BRANCH: graphql-markdown-pr-${{ inputs.pr }}
+
+      - name: Keep the screenshots
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: graphql-markdown-pr-${{ inputs.pr }}-screenshots
+          path: test-results/
+          if-no-files-found: warn
+          retention-days: 7
