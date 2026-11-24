@@ -28,6 +28,10 @@ logs
 content/api-reference/*
 !content/api-reference/.gitkeep
 
+# Markdown copies (generated)
+.markdown-copies/
+/public/api-reference/
+
 # Playwright / Argos
 /test-results/
 /playwright-report/

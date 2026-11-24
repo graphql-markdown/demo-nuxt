@@ -60,6 +60,29 @@ for (const [kind, slug] of entries) {
     await expect(page).toHaveURL(new RegExp(`/api-reference#${slug}$`));
     await expect(page.locator(`h2#${slug}`)).toBeInViewport();
   });
+
+  // Each type is also published as plain Markdown next to its page: no MDX
+  // or HTML spans.
+  test(`markdown copy: ${kind}`, async ({ page }) => {
+    const response = await page.request.get(`/api-reference/${slug}.md`);
+    expect(response.status()).toBe(200);
+    const body = await response.text();
+    expect(body.startsWith("# ")).toBe(true);
+    expect(body).not.toContain("<span");
+  });
+
+  // The entry's title row links to its copy.
+  test(`markdown link: ${kind}`, async ({ page }) => {
+    await page.goto("/api-reference");
+    const link = entry(page, slug).getByRole("link", {
+      name: "View as Markdown",
+    });
+    await expect(link).toHaveAttribute(
+      "href",
+      new RegExp(`/api-reference/${slug}\\.md$`),
+    );
+    await expect(link).toHaveAttribute("target", "_blank");
+  });
 }
 
 test.describe("dark mode", () => {
