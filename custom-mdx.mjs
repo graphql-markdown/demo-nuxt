@@ -1,7 +1,12 @@
 // custom-mdx.mjs
-// Links schema type names written as inline code in deprecation reasons to
-// their pages, following the "Link entities in deprecation reasons" recipe:
-// https://graphql-markdown.dev/docs/customize/hooks#link-entities-in-deprecation-reasons
+// Two recipes on top of the theme formatter:
+// - Links schema type names written as inline code in deprecation reasons to
+//   their pages, following the "Link entities in deprecation reasons" recipe:
+//   https://graphql-markdown.dev/docs/customize/hooks#link-entities-in-deprecation-reasons
+// - Adds a "View as Markdown" link to each page, following the "Markdown
+//   copies" guide: https://graphql-markdown.dev/docs/guides/markdown-copies
+import { readFile, writeFile } from "node:fs/promises";
+import { relative, sep } from "node:path";
 import * as preset from "@graphql-markdown/nuxt-theme/formatter";
 import { toLink } from "@graphql-markdown/printer-legacy";
 
@@ -53,4 +58,38 @@ const formatMDXAdmonition = (admonition, meta) => {
 // Drop the preset factory, otherwise it takes precedence over the overrides
 const { createMDXFormatter, default: _default, ...formatter } = preset;
 
-export default { ...formatter, beforePrintTypeHook, formatMDXAdmonition };
+// The guide recommends an absolute URL: frameworks leave such links alone,
+// whereas several rewrite or check links ending in `.md`.
+const COPIES_URL = "https://graphql-markdown.dev/demo-nuxt/api-reference";
+
+/**
+ * Hook that appends a "View as Markdown" link to each page, pointing to the
+ * copy with the same path.
+ */
+const afterRenderTypeEntitiesHook = async (event) => {
+  // Keep the preset's own hook, if any
+  await formatter.afterRenderTypeEntitiesHook?.(event);
+
+  const { filePath, outputDir, outputAdapter } = event.data;
+  const path = relative(outputDir, filePath)
+    .split(sep)
+    .join("/")
+    .replace(/\.mdx?$/, "");
+  const link = `\n\n[View as Markdown](${COPIES_URL}/${path}.md)\n`;
+
+  // Use the output adapter when one is configured, the file system otherwise
+  const page = outputAdapter?.readFile
+    ? await outputAdapter.readFile(filePath)
+    : await readFile(filePath, "utf8");
+  const content = `${page.trimEnd()}${link}`;
+  await (outputAdapter?.writeFile
+    ? outputAdapter.writeFile(filePath, content)
+    : writeFile(filePath, content));
+};
+
+export default {
+  ...formatter,
+  beforePrintTypeHook,
+  formatMDXAdmonition,
+  afterRenderTypeEntitiesHook,
+};
