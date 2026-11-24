@@ -30,7 +30,7 @@ This project itself contributes:
 ├── schema/
 │   └── homepage.md             # reference intro (title, SEO description, body)
 ├── content.config.ts           # required per-project: content collection config
-├── custom-mdx.mjs              # theme formatter extended to link types in deprecation reasons and to their Markdown copies
+├── custom-mdx.mjs              # theme formatter extended to link types in deprecation reasons
 ├── generate-docs.ts            # custom entry point: homepage, formatter, shared reference options
 ├── graphql.config.mjs          # `markdown` project for the Markdown copies
 ├── lib/
@@ -57,12 +57,12 @@ The formatter imports `toLink` from `@graphql-markdown/printer-legacy`, so the d
 
 ### Markdown copies
 
-Each type is also published as plain Markdown at `/api-reference/<slug>.md`, and its section links to it with "View as Markdown". It follows the [Markdown copies](https://graphql-markdown.dev/docs/guides/markdown-copies) guide:
+Each type is also published as plain Markdown at `/api-reference/<slug>.md`, and its title row links to it with "View as Markdown". It follows the [Markdown copies](https://graphql-markdown.dev/docs/guides/markdown-copies) guide:
 
 - `graphql.config.mjs` defines a `markdown` project that renders the schema with the plain Markdown formatter into `.markdown-copies/`.
 - `lib/markdown-copy.mjs` is that formatter, based on the mdBook preset.
 - `lib/reference-options.mjs` holds the schema, loaders, print options and decorators shared by `generate-docs.ts` and the `markdown` project, so both outputs have the same content.
-- `custom-mdx.mjs` has the `afterRenderTypeEntitiesHook` that appends the "View as Markdown" link to each page.
+- `app/components/ApiSinglePageEntry.vue`, swizzled from the theme, adds a "View as Markdown" link to each type's title row. The guide adds the link with an `afterRenderTypeEntitiesHook` instead; with the theme, the title row is a better place and the pages stay unchanged.
 - The `copies` script generates the copies and copies `.markdown-copies/` into `public/` before the Nuxt build, because Nuxt only serves `public/` as-is.
 
 The schema is the [GraphQL-Markdown demo schema](https://raw.githubusercontent.com/graphql-markdown/graphql-markdown/main/tests/e2e/__data__/demo_schema.graphql), shared by all GraphQL-Markdown demos: a small workspace API that exercises the interesting cases: `@example`, `@exampleVariables`, and `@exampleResponse` on every operation, `@deprecatedType` on a superseded object, field-level `@deprecated`, a union, an interface, and a paginated connection.
@@ -71,14 +71,14 @@ The schema is the [GraphQL-Markdown demo schema](https://raw.githubusercontent.c
 
 All commands are run from the root of the project, from a terminal:
 
-| Command             | Action                                                                                                      |
-| :------------------ | :---------------------------------------------------------------------------------------------------------- |
-| `pnpm install`      | Installs dependencies                                                                                       |
-| `pnpm run dev`      | Regenerates the documentation if needed, then serves it on `localhost:3000`                                 |
-| `pnpm run build`    | Regenerates the documentation if needed and builds the server bundle to `./.output`                         |
-| `pnpm run generate` | Regenerates the documentation and builds the static site to `./.output/public` (verifies cold-build works)  |
+| Command             | Action                                                                                                                       |
+| :------------------ | :--------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm install`      | Installs dependencies                                                                                                        |
+| `pnpm run dev`      | Regenerates the documentation if needed, then serves it on `localhost:3000`                                                  |
+| `pnpm run build`    | Regenerates the documentation if needed and builds the server bundle to `./.output`                                          |
+| `pnpm run generate` | Regenerates the documentation and builds the static site to `./.output/public` (verifies cold-build works)                   |
 | `pnpm run copies`   | Renders the Markdown copies into `./.markdown-copies` and copies them into `./public` (run by `dev`, `build` and `generate`) |
-| `pnpm run preview`  | Serves the production build locally                                                                         |
+| `pnpm run preview`  | Serves the production build locally                                                                                          |
 
 Documentation is regenerated automatically when `generate-docs.ts` changes.
 
